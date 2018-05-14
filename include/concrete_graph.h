@@ -20,12 +20,26 @@ typedef boost::graph_traits<Graph>::vertex_iterator VertexIterator;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIterator;
 
 struct VertexProperties{
-	int distanceFromS;
+	double distanceFromS;
 	Vertex pred;
+
+	VertexProperties(){
+	    pred = NULL;
+        distanceFromS = std::numeric_limits<double>::infinity();
+        //distanceFromS = std::numeric_limits<int>::max();
+    }
+
 };
 
 struct EdgeProperties {
-	int cost;
+	double cost;
+
+    EdgeProperties(){}
+
+	EdgeProperties(int c){
+	    cost = c;
+	}
+
 };
 
 #endif

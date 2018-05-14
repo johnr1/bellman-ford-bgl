@@ -8,4 +8,4 @@ IF (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 endif()
 
-add_executable(algoask2 src/main.cpp src/graph_gen.cpp include/concrete_graph.h include/graph_gen.h)
+add_executable(algoask2 src/main.cpp src/graph_gen.cpp include/concrete_graph.h include/graph_gen.h src/io.cpp include/io.h)

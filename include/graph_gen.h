@@ -4,7 +4,7 @@
 #include "../include/concrete_graph.h"
 
 
-Graph myGridGraph(int);
+Graph myGridGraph(unsigned long);
 
 
 #endif
