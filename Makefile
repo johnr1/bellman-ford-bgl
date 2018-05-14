@@ -11,10 +11,10 @@ BIN=bin/executable
 
 executable: $(BIN)
 
-$(BIN): $(OBJECTS)
+$(BIN): $(OBJECTS) 
 	$(CC) $(OBJECTS) -o $(BIN) $(LIB)
 
-build/%.o: src/%.cpp include/%.h
+build/%.o: src/%.cpp include/%.h include/concrete_graph.h
 	$(CC) -c $(FLAGS) $< -o $@
 
 build/main.o: src/main.cpp
