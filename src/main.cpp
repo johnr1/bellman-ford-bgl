@@ -2,46 +2,24 @@
 #include <boost/graph/graph_utility.hpp>
 #include <boost/graph/graphviz.hpp>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 #include "../include/concrete_graph.h"
 #include "../include/graph_gen.h"
-
-class myEdgeWriter {
-private:
-    Graph G;
-
-public:
-    explicit myEdgeWriter(const Graph &g) : G(g) {}
-
-    void operator()(std::ostream& out, const Edge& e) const {
-        out << "[label=\"" << G[e].cost << "\"]";
-    }
-};
-
-class myVertexWriter {
-private:
-    Graph G;
-
-public:
-    explicit myVertexWriter(const Graph &g) : G(g) {}
-
-    void operator()(std::ostream& out, const Vertex& v) const {
-        out << "[label=\"" << G[v].distanceFromS << "\"]";
-    }
-};
-
-
-
+#include "../include/io.h"
 
 int main(int argc, char* argv[]) {
-	Graph G = myGridGraph(9);
+    srand (time(NULL));
+
+	//Graph G = myGridGraph(9);
+	Graph G = randomGraph(10);
 	boost::print_graph(G);
 
-	myVertexWriter mvw(G);
     myEdgeWriter mew(G);
 	std::ofstream f("graph.txt");
-	//boost::write_graphviz(f, G, mvw, mew);
-	boost::write_graphviz(f, G);
+	boost::write_graphviz(f, G, boost::default_writer(), mew);
+	//boost::write_graphviz(f, G);
 
 	f.close();
 	return 0;
