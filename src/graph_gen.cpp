@@ -61,11 +61,13 @@ void createEdge(unsigned long i,
     double cost;
 
     // Two special edges
-    if(sourceX == n/2+1 && sourceY == n/2-1 && targetX == n/2+1 && targetY == n/2){
+    if(sourceX == n/2 && sourceY == n/2-1 && targetX == n/2 && targetY == n/2){
+        // right -> left
         vp = VertexPair(j, i);
         cost = -100000;
     }
-    else if (sourceX == n/2 && sourceY == n/2-1 && targetX == n/2+1 && targetY == n/2-1){
+    else if (sourceX == n/2-1 && sourceY == n/2-1 && targetX == n/2 && targetY == n/2-1){
+        // down -> up
         vp = VertexPair(j, i);
         cost = -100000;
     }
