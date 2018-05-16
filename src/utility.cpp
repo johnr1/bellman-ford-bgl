@@ -3,37 +3,34 @@
 #include <LEDA/graph/graph.h>
 
 /**
- * Convert a BOOST Graph (as typedefed) into a parametarized
- * LEDA GRAPH and returns it.
+ * Convert a BOOST Graph (as typedefed) into a LEDA
+ * parameter GRAPH and returns it.
  * NodeInfo: Vertex Index as is in Graph
  * EdgeInfo: Edge Cost as is in Graph
  *
  *	@param BG The boost Graph to transform
- * @return The converted parametarized LEDA GRAPH
+ * @return The converted LEDA parameter GRAPH
  */
 leda::GRAPH<unsigned, int> boostToLeda(const Graph &BG){
-	unsigned n = boost::num_vertices(BG);
+	unsigned long n = boost::num_vertices(BG);
 	leda::GRAPH<unsigned , int> LG;
-	std::vector<leda::node> insertedNodes(n, nil);
+	std::vector<leda::node> insertedNodes(n);
+
+	VertexIterator vi, vi_end;
+	for(boost::tie(vi, vi_end) = vertices(BG); vi != vi_end; ++vi){
+		leda::node v = LG.new_node(*vi);
+		insertedNodes[*vi] = v;
+	}
+
 
 	EdgeIterator ei, ei_end;
-	leda::node v1;
-	leda::node v2;
+	leda::node v1, v2;
 	for(boost::tie(ei, ei_end) = edges(BG); ei != ei_end; ++ei){
 		Vertex vSource = boost::source(*ei, BG);
 		Vertex vTarget = boost::target(*ei, BG);
 
 		v1 = insertedNodes[vSource];
-		if( v1 == nil){
-			v1 = LG.new_node(vSource);
-			insertedNodes[vSource] = v1;
-		}
-
 		v2 = insertedNodes[vTarget];
-		if( v2 == nil ){
-			v2 = LG.new_node(vTarget);
-			insertedNodes[vTarget] = v2;
-		}
 
 		LG.new_edge(v1, v2, BG[*ei].cost);
 	}

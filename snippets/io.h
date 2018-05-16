@@ -32,7 +32,7 @@ struct edge_writer
   {
 	out << "[label=\"" << get(&EdgeProperties::cost, m_g, e) << "\"";
 	typename boost::graph_traits < Graph >::vertex_descriptor
-	  u = source(e, m_g), v = target(e, m_g);
+	  u = boost::source(e, m_g), v = boost::target(e, m_g);
 	if (m_parent[v] == u)
 		out << ", color=\"black\"";
 	else

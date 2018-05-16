@@ -6,4 +6,5 @@
 
 leda::GRAPH<unsigned, int> boostToLeda(const Graph &);
 
+
 #endif

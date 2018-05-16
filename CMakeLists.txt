@@ -15,18 +15,19 @@ link_directories(${LEDAROOT})
 set(SOURCES
 	"src/main.cpp"
 	"src/graph_gen.cpp"
-	"src/io.cpp"
-	"src/utility.cpp"
-	"src/boost_bf.cpp"
-	"src/bellman_ford.cpp")
+		"src/utility.cpp"
+	"src/bellman_ford.cpp"
+	"src/benchmark.cpp"
+	"src/run.cpp")
 
 set(HEADERS
 	"include/graph_gen.h"
-	"include/io.h"
+	"snippets/io.h"
 	"include/utility.h"
 	"include/concrete_graph.h"
-	"include/boost_bf.h"
-	"include/bellman_ford.h")
+    "include/bellman_ford.h"
+	"include/benchmark.h"
+	"include/run.h")
 
 add_executable(algoask2 ${SOURCES} ${HEADERS})
 target_link_libraries(algoask2 leda m X11)
