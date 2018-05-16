@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(algoask2)
 
 set(CMAKE_CXX_STANDARD 11)
-set(LEDAROOT "/home/john/bin/LEDA")
+set(LEDAROOT "/home/john/Documents/lib/LEDA")
 
 find_package(Boost)
 IF (Boost_FOUND)
