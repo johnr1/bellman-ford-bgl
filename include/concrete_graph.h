@@ -23,5 +23,6 @@ typedef boost::graph_traits<Graph>::vertex_iterator VertexIterator;
 typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIterator;
 
+typedef boost::property_map<Graph, long EdgeProperties::*>::type CostPropertyMap;
 
 #endif

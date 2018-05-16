@@ -6,25 +6,34 @@
 
 #include "../include/graph_gen.h"
 
-// Creates random connected Graph with edge cost -> [-100, 10000].
+/**
+ * Returns a random BOOST graph, edge costs: [-100, 10000]
+ *
+ *	@param n Number of vertexes
+ * @return The random Graph (as has been typedefed)
+ */
 Graph randomGraph(unsigned long n){
     Graph G;
     auto m = static_cast<unsigned long>(20 * n * log(n));
 
-    boost::mt19937 gen;
+	boost::mt19937 gen(time(NULL)); //Seed with current time
     boost::generate_random_graph(G, n, m, gen, false, false);
     boost::make_connected<Graph>(G);
 
     std::pair<EdgeIterator, EdgeIterator> ei;
     for(ei = edges(G); ei.first != ei.second; ++ei.first){
-        G[*ei.first].cost = rand() % (10000+1) - 100;
+		G[*ei.first].cost = rand() % (10000+1) - 100;
     }
 
     return G;
 }
 
-// Creates the Grid Graph specified in the report.
-// Can avoid if n == 0 by removing unsigned
+/**
+ * Returns a BOOST grid graph, as documented in the excercise
+ *
+ *	@param n Grid size (Total vertexed n*n)
+ * @return The Grid Graph in BOOST format (as has been typedefed)
+ */
 Graph myGridGraph(unsigned long n){
     // Use lists for quick edge adding, create Graph with iterator constructor
     std::list<VertexPair> edges;
@@ -45,7 +54,7 @@ Graph myGridGraph(unsigned long n){
     return Graph(edges.begin(), edges.end(), edgeWeights.begin(), n*n);
 }
 
-// PRIVATE - USED BY myGridGraph()
+// USED BY myGridGraph()
 void createEdge(unsigned long i,
                       unsigned long j,
                       unsigned long n,
@@ -82,6 +91,5 @@ void createEdge(unsigned long i,
 
     edges.emplace_back(vp);
     edgeWeights.emplace_back(cost);
-
 }
 

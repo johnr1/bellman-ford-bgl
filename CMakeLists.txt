@@ -12,5 +12,19 @@ endif()
 include_directories(${LEDAROOT}/incl)
 link_directories(${LEDAROOT})
 
-add_executable(algoask2 src/main.cpp src/graph_gen.cpp include/concrete_graph.h include/graph_gen.h src/io.cpp include/io.h)
+set(SOURCES
+	"src/main.cpp"
+	"src/graph_gen.cpp"
+	"src/io.cpp"
+	"src/utility.cpp"
+	"src/boost_bf.cpp")
+
+set(HEADERS
+	"include/graph_gen.h"
+	"include/io.h"
+	"include/utility.h"
+	"include/concrete_graph.h"
+	"include/boost_bf.h")
+
+add_executable(algoask2 ${SOURCES} ${HEADERS})
 target_link_libraries(algoask2 leda m X11)
