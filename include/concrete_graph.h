@@ -4,8 +4,13 @@
 #include <boost/graph/adjacency_list.hpp>
 
 // Forward declaration
-struct EdgeProperties;
+struct EdgeProperties {
+	long cost;
 
+	EdgeProperties(){}
+	EdgeProperties(long c) : cost(c){}
+
+};
 
 typedef boost::adjacency_list<boost::vecS,
 							boost::vecS, 
@@ -20,12 +25,6 @@ typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIterator;
 
 
-struct EdgeProperties {
-	long cost;
 
-    EdgeProperties(){}
-	EdgeProperties(long c) : cost(c){}
-
-};
 
 #endif

@@ -17,31 +17,29 @@ Graph randomGraph(unsigned long n){
 
     std::pair<EdgeIterator, EdgeIterator> ei;
     for(ei = edges(G); ei.first != ei.second; ++ei.first){
-        G[*ei.first].cost = rand() % 10000 - 100;
+        G[*ei.first].cost = rand() % (10000+1) - 100;
     }
 
     return G;
 }
 
 // Creates the Grid Graph specified in the report.
+// Can avoid if n == 0 by removing unsigned
 Graph myGridGraph(unsigned long n){
     // Use lists for quick edge adding, create Graph with iterator constructor
     std::list<VertexPair> edges;
     std::list<EdgeProperties> edgeWeights;
 
-    // Create first line of grid
+    if(n == 0) return Graph();
+
     for(unsigned long j=0; j<n-1; ++j){
         createEdge(j, j+1, n, edges, edgeWeights);
     }
 
-    // Create rest of lines, connect previous's line parallel vertex
-    // createEdge() flips direction when needed (or randomly if in random range)
-    for(unsigned long i=1; i<n; ++i){
-        for(unsigned long j=0; j<n-1; ++j){
-            createEdge(i*n+j, i*n+j+1, n, edges, edgeWeights);
-            createEdge((i-1)*n+j, i*n+j, n, edges, edgeWeights);
-        }
-        createEdge((i-1)*n+n-1, i*n+n-1, n, edges, edgeWeights);
+    for(unsigned long i=n; i<n*n; ++i){
+        createEdge(i-n, i, n, edges, edgeWeights);
+        if(i%n != 0)
+            createEdge(i-1, i, n, edges, edgeWeights);
     }
 
     return Graph(edges.begin(), edges.end(), edgeWeights.begin(), n*n);
@@ -73,11 +71,11 @@ void createEdge(unsigned long i,
     }
     else if(sourceX < n/2 || sourceY >= n/2 || targetX <= n/2) {
         vp = VertexPair(i, j);
-        cost = rand() % 10000;
+        cost = rand() % (10000+1);
     }
     else {
         vp = (rand() % 2) ? VertexPair(i, j) : VertexPair(j, i);
-        cost = rand() % 10000 - 100;
+        cost = rand() % (10000+1) - 100;
     }
 
     edges.emplace_back(vp);

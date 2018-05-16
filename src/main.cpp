@@ -12,8 +12,8 @@
 int main(int argc, char* argv[]) {
     srand (time(NULL));
 
-	//Graph G = myGridGraph(9);
-	Graph G = randomGraph(10);
+	Graph G = myGridGraph(10);
+	//Graph G = randomGraph(10);
 	boost::print_graph(G);
 
     myEdgeWriter mew(G);
