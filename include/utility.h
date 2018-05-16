@@ -4,7 +4,6 @@
 #include <LEDA/graph/graph.h>
 #include "concrete_graph.h"
 
-leda::GRAPH<unsigned long, long> boostToLeda(const Graph &);
-
+leda::GRAPH<unsigned, int> boostToLeda(const Graph &);
 
 #endif

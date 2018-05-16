@@ -16,6 +16,8 @@
 int main(int argc, char* argv[]) {
     srand (time(NULL));
 
+	std::cout << std::numeric_limits<int>::max() << std::endl;
+
 	Graph G = randomGraph(50);
 	boost::print_graph(G);
 	auto LG = boostToLeda(G);
@@ -24,16 +26,16 @@ int main(int argc, char* argv[]) {
 	// ===================
 	CostPropertyMap costsMap = boost::get(&EdgeProperties::cost, G);
 
-	std::vector<long> distance (10, (std::numeric_limits <long>::max)());
+	std::vector<int> distance (10, std::numeric_limits <int>::max());
 	std::vector<Vertex> pred(10);
 	int s = 0;
 
-	for (long i = 0; i < 10; ++i) pred[i] = i;
+	for (int i = 0; i < 10; ++i) pred[i] = i;
 	distance[s] = 0;
 
 	bool r = bellman_ford_shortest_paths
 	  (G, int(10), costsMap, &pred[0], &distance[0],
-		boost::closed_plus<long>(), std::less<long>(), boost::default_bellman_visitor());
+		boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
 
 	if (r){
 		std::pair<VertexIterator, VertexIterator> vi;

@@ -5,10 +5,10 @@
 
 
 struct EdgeProperties {
-	long cost;
+	int cost;
 
 	EdgeProperties() = default;
-	explicit EdgeProperties(long c) : cost(c){}
+	explicit EdgeProperties(int c) : cost(c){}
 };
 
 typedef boost::adjacency_list<boost::vecS,
@@ -23,6 +23,6 @@ typedef boost::graph_traits<Graph>::vertex_iterator VertexIterator;
 typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIterator;
 
-typedef boost::property_map<Graph, long EdgeProperties::*>::type CostPropertyMap;
+typedef boost::property_map<Graph, int EdgeProperties::*>::type CostPropertyMap;
 
 #endif

@@ -3,14 +3,14 @@
 
 #include "../include/concrete_graph.h"
 
-typedef std::pair<int,int> VertexPair;
+typedef std::pair<unsigned, unsigned> VertexPair;
 
 // Public
-Graph randomGraph(unsigned long n);
-Graph myGridGraph(unsigned long);
+Graph randomGraph(unsigned);
+Graph myGridGraph(unsigned);
 
 // Private
-void createEdge(unsigned long i, unsigned long j, unsigned long n, std::list<VertexPair> &edges, std::list<EdgeProperties> &edgeWeights);
+void createEdge(unsigned i, unsigned j, unsigned n, std::list<VertexPair> &edges, std::list<EdgeProperties> &edgeWeights);
 
 
 #endif

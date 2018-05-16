@@ -11,9 +11,9 @@
  *	@param BG The boost Graph to transform
  * @return The converted parametarized LEDA GRAPH
  */
-leda::GRAPH<unsigned long, long> boostToLeda(const Graph &BG){
-	unsigned long n = boost::num_vertices(BG);
-	leda::GRAPH<unsigned long, long> LG;
+leda::GRAPH<unsigned, int> boostToLeda(const Graph &BG){
+	unsigned n = boost::num_vertices(BG);
+	leda::GRAPH<unsigned , int> LG;
 	std::vector<leda::node> insertedNodes(n, nil);
 
 	EdgeIterator ei, ei_end;

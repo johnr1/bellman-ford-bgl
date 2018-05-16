@@ -17,14 +17,16 @@ set(SOURCES
 	"src/graph_gen.cpp"
 	"src/io.cpp"
 	"src/utility.cpp"
-	"src/boost_bf.cpp")
+	"src/boost_bf.cpp"
+	"src/bellman_ford.cpp")
 
 set(HEADERS
 	"include/graph_gen.h"
 	"include/io.h"
 	"include/utility.h"
 	"include/concrete_graph.h"
-	"include/boost_bf.h")
+	"include/boost_bf.h"
+	"include/bellman_ford.h")
 
 add_executable(algoask2 ${SOURCES} ${HEADERS})
 target_link_libraries(algoask2 leda m X11)

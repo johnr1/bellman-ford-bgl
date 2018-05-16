@@ -12,9 +12,9 @@
  *	@param n Number of vertexes
  * @return The random Graph (as has been typedefed)
  */
-Graph randomGraph(unsigned long n){
+Graph randomGraph(unsigned n){
     Graph G;
-    auto m = static_cast<unsigned long>(20 * n * log(n));
+	auto m = static_cast<unsigned>(20 * n * log(n));
 
 	boost::mt19937 gen(time(NULL)); //Seed with current time
     boost::generate_random_graph(G, n, m, gen, false, false);
@@ -34,18 +34,18 @@ Graph randomGraph(unsigned long n){
  *	@param n Grid size (Total vertexed n*n)
  * @return The Grid Graph in BOOST format (as has been typedefed)
  */
-Graph myGridGraph(unsigned long n){
+Graph myGridGraph(unsigned n){
     // Use lists for quick edge adding, create Graph with iterator constructor
     std::list<VertexPair> edges;
     std::list<EdgeProperties> edgeWeights;
 
     if(n == 0) return Graph();
 
-    for(unsigned long j=0; j<n-1; ++j){
+	for(unsigned j=0; j<n-1; ++j){
         createEdge(j, j+1, n, edges, edgeWeights);
     }
 
-    for(unsigned long i=n; i<n*n; ++i){
+	for(unsigned i=n; i<n*n; ++i){
         createEdge(i-n, i, n, edges, edgeWeights);
         if(i%n != 0)
             createEdge(i-1, i, n, edges, edgeWeights);
@@ -55,19 +55,19 @@ Graph myGridGraph(unsigned long n){
 }
 
 // USED BY myGridGraph()
-void createEdge(unsigned long i,
-                      unsigned long j,
-                      unsigned long n,
+void createEdge(unsigned i,
+					  unsigned j,
+					  unsigned n,
                       std::list<VertexPair> &edges,
                       std::list<EdgeProperties> &edgeWeights){
     // Decompose Vertex indexes in 2D grid
-    unsigned long sourceX= i/n;
-    unsigned long sourceY= i%n;
-    unsigned long targetX= j/n;
-    unsigned long targetY= j%n;
+	unsigned  sourceX= i/n;
+	unsigned  sourceY= i%n;
+	unsigned  targetX= j/n;
+	unsigned  targetY= j%n;
 
     VertexPair vp;
-    double cost;
+	int cost;
 
     // Two special edges
     if(sourceX == n/2 && sourceY == n/2-1 && targetX == n/2 && targetY == n/2){
