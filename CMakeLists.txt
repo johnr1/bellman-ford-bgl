@@ -23,7 +23,7 @@ set(SOURCES
 set(HEADERS
 	"include/graph_gen.h"
 	"snippets/io.h"
-		"include/graph.h"
+	"include/graph.h"
     "include/bellman_ford.h"
 	"include/benchmark.h"
 	"include/run.h")

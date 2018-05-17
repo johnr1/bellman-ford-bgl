@@ -1,18 +1,70 @@
 #include <vector>
+#include <queue>
+#include <limits>
 
 #include "../include/bellman_ford.h"
 #include "../include/graph.h"
 
 
-bool bellman_ford(const Graph &G,
-								const std::vector<int> &costs,
-								std::vector<int> &dist,
-								std::vector<Vertex> &pred)
+bool bellman_ford(Graph &G,
+                  Vertex s,
+                  CostPropertyMap &costs,
+                  std::vector<int> &dist,
+                  std::vector<Vertex> &pred)
 {
-	long n = boost::num_vertices(G);
+    Vertex vNil = boost::graph_traits<Graph>::null_vertex();
+    unsigned long n = boost::num_vertices(G);
 	long phase_count = 0;
 
-	return false;
+	std::queue<Vertex> Q;
+	std::vector<bool> in_Q(n, false);
+
+    // Make everything equal infinity
+	for(auto &d : dist)
+	    d = std::numeric_limits<int>::max();
+
+	// Make parent = self (signifies null)
+	for(unsigned long i; i<n; i++)
+	    pred[i] = i;
+
+    dist[s] = 0;
+    Q.emplace(s);
+    in_Q[s] = true;
+    Q.emplace(vNil); // end marker
+
+    Vertex u,v;
+    while(phase_count < n){
+        u = Q.front(); Q.pop();
+        if(u == vNil){
+            phase_count++;
+            if(Q.empty())
+                return true;
+            Q.emplace(vNil);
+            continue;
+        }
+        else
+            in_Q[u] = false;
+
+        int du = dist[u];
+
+        OutEdgeIterator ei, ei_end;
+        for(boost::tie(ei, ei_end) = boost::out_edges(u, G); ei != ei_end; ++ei){
+            Vertex v = boost::target(*ei, G);
+            int d = du + costs[*ei];
+            if((pred[v] == vNil && v != s) || d < dist[v]){
+                dist[v] = d;
+                pred[v] = u;
+                if( !in_Q[v] ){
+                    Q.emplace(v);
+                    in_Q[v] =  true;
+                }
+            }
+        }
+    }
+
+    // BF POST PROCESSING
+
+    return false;
 }
 
 

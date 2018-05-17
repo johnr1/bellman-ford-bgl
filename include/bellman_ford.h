@@ -7,7 +7,8 @@ enum class VertexLabel {Vminus = -1, Vf = 0, Vplus = 1};
 std::string labelName(VertexLabel);
 
 bool bellman_ford(Graph&,
-				  std::vector<int> &costs,
+				  Vertex s,
+				  CostPropertyMap &costs,
 				  std::vector<int> &dist,
 				  std::vector<Vertex> &pred);
 

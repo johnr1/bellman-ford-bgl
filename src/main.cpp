@@ -52,9 +52,12 @@ int main(int argc, char* argv[]) {
     dist[s] = 0;
 
     // Run algo
-    bool r = bellman_ford_shortest_paths
-            (G, int(n), costs, &pred[0], &dist[0],
-             boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
+    //bool r = bellman_ford_shortest_paths
+    //        (G, int(n), costs, &pred[0], &dist[0],
+    //         boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
+
+    bool r = bellman_ford(G, s, costs, dist, pred);
+
 
     if(!r){
         std::cout << "Cycle detected" << std::endl;
