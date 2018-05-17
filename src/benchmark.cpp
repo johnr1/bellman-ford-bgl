@@ -1,17 +1,10 @@
-#include <ctime>
-#include <cstdlib>
-#include <iostream>
+#include "../include/benchmark.h"
 
-#include <LEDA/graph/graph.h>
 #include <boost/graph/random.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/random/mersenne_twister.hpp>
-#include <boost/timer.hpp>
-#include <boost/graph/relax.hpp>
-#include "../include/concrete_graph.h"
+#include <boost/timer.hpp> // perhaps for better results
 #include "../include/graph_gen.h"
-#include "../include/benchmark.h"
-#include "../include/run.h"
 #include "../include/utility.h"
 
 #define ITERATIONS 10
@@ -23,6 +16,9 @@ void benchmark(){
     Vertex b_start_nodes[ITERATIONS];
     leda::node l_start_nodes[ITERATIONS];
 
+    std::cout << "Running benchmark, results will appear as executions complete..." << std::endl;
+    std::cout << "Please be patient..." << std::endl << std::endl;
+
     for(auto &test : tests){
         std::string graph_type = test.first;
         unsigned n = test.second;
@@ -33,7 +29,6 @@ void benchmark(){
         else if(graph_type == "Grid")
             BG = myGridGraph(n);
 
-
         auto LG = boostToLeda(BG);
 
         // Pick same random nodes, translate them between formats
@@ -43,18 +38,19 @@ void benchmark(){
             b_start_nodes[i] = LG[v];
         }
 
-        double boost_time = 0; //benchmark_boost_bf();
-        double leda_time = 1; //benchmark_boost_bf();
-        double my_time = 2; //benchmark_boost_bf();
+        double boost_time = benchmark_boost_bf(BG, b_start_nodes);
+        double leda_time = benchmark_leda_bf(LG, l_start_nodes);
+        double my_time = benchmark_my_bf(BG, b_start_nodes);
 
         std::cout << "Graph Type: " << graph_type <<" | Nodes: " << boost::num_vertices(BG) << " | Edges: " << boost::num_edges(BG) << std::endl;
-        std::cout << "BOOST_BF Time: " << boost_time << "s" << std::endl;
+        std::cout << "BOOST_BF Time: " << boost_time << "s" << (boost_time<0 ? " (cycle detected)" : " ") << std::endl;
         std::cout << "LEDA_BF Time: " << leda_time << "s" << std::endl;
         std::cout << "MY_BF Time: " << my_time << "s" << std::endl << std::endl;
     }
 }
 
 
+/* ========== Algorithm executors and timers ========== */
 
 double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
     unsigned long n = boost::num_vertices(G);
@@ -81,14 +77,61 @@ double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
         dist[s] = 0;
 
         // Run algo
-        bool r = bellman_ford_shortest_paths(G, int(n), costs, &pred[0], &dist[0],
-                 boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
+        bool no_neg_cycle = bellman_ford_shortest_paths(G, int(n), costs, &pred[0], &dist[0],
+                                                        boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
 
-        if(!r){
-            // Id detected cycle return -1 as time
+        if(!no_neg_cycle){
+            // If detected cycle return -1 as time
             elapsed_time = -1;
             return elapsed_time;
         }
+    }
+    elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;
+    return elapsed_time / ITERATIONS;
+}
+
+
+double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[]){
+    int n = G.number_of_nodes();
+
+    // Declare node_arrays dist and pred
+    leda::node_array<leda::edge> pred(G);
+    leda::node_array<int> dist(G);
+
+    // Get property cost from inside GRAPH
+    auto costs = G.edge_data();
+
+    double elapsed_time = 0;
+    std::clock_t start = clock();
+    for(int it=0; it<ITERATIONS; ++it){
+        leda::node s = start_nodes[it];
+
+        // Run algo
+        //bool no_neg_cycle = BELLMAN_FORD_T(G,s,costs,dist,pred);
+    }
+    elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;
+    return elapsed_time / ITERATIONS;
+}
+
+
+double benchmark_my_bf(Graph &G, Vertex start_nodes[]){
+    unsigned long n = boost::num_vertices(G);
+
+    // Get property map from bundled property cost
+    CostPropertyMap costs = boost::get(&EdgeProperties::cost, G);
+
+    // Declare dist and pred vectors
+    std::vector<int> dist (n);
+    std::vector<Vertex> pred(n);
+
+    double elapsed_time = 0;
+    std::clock_t start = clock();
+    for(int it=0; it<ITERATIONS; ++it){
+        Vertex s = start_nodes[it];
+
+        // Run algo
+        //bool no_neg_cycle = bellman_ford(G, int(n), costs, pred, dist)
+
     }
     elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;
     return elapsed_time / ITERATIONS;

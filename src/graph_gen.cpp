@@ -29,7 +29,7 @@ Graph randomGraph(unsigned n){
 }
 
 /**
- * Returns a BOOST grid graph, as documented in the excercise
+ * Returns a BOOST grid graph, as documented in the exercise
  *
  *	@param n Grid size (Total vertexed n*n)
  * @return The Grid Graph in BOOST format (as has been typedefed)
