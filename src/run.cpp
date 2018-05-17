@@ -37,8 +37,8 @@
 //
 //}
 
-void run_boost_bf(const Graph &G, const Vertex s, bool printResults){
-    long n = boost::num_vertices(G);
+void run_boost_bf(Graph &G, Vertex s, bool printResults){
+    unsigned long n = boost::num_vertices(G);
 
     // Declare dist(intialized to int-max -> inf) and pred vectors
     std::vector<int> dist (n, std::numeric_limits <int>::max());

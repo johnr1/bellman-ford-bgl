@@ -21,10 +21,7 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    Graph G = randomGraph(1000);
-    Vertex s = boost::random_vertex(G, gen);
-    run_boost_bf(G, s);
-    //benchmark();
+    benchmark();
     return 0;
 
 }
