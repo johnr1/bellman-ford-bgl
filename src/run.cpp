@@ -6,36 +6,6 @@
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <LEDA/graph/graph.h>
 
-//void run_my_bf(const Graph &G){
-//    long n = boost::num_vertices(G);
-//
-//    // Declare dist(intialized to int-max -> inf) and pred vectors
-//    std::vector<int> dist (n, std::numeric_limits <int>::max());
-//    std::vector<Vertex> pred(n);
-//
-//    // Get property map from bundled property cost
-//    CostPropertyMap costs = boost::get(&EdgeProperties::cost, G);
-//
-//    // Initialize preds to self(signifies null)
-//    for (unsigned long i = 0; i < n; ++i) pred[i] = i;
-//
-//    // Run algo
-//    bool r = bellman_ford_shortest_paths
-//            (G, int(n), costs, &pred[0], &dist[0],
-//             boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
-//
-//
-//    // Print results
-//    if (r){
-//        std::pair<VertexIterator, VertexIterator> vi;
-//        for (vi = vertices(G); vi.first != vi.second; ++vi.first)
-//            std::cout << "Vertex " << *vi.first << ": " << "Distance from s=" << dist[*vi.first]
-//                      << " | pred=" << pred[*vi.first] << std::endl;
-//    }
-//    else
-//        std::cout << "Negative cycled detected on boost Bellman ford." << std::endl;
-//
-//}
 
 void run_boost_bf(Graph &G, Vertex s, bool printResults){
     unsigned long n = boost::num_vertices(G);
