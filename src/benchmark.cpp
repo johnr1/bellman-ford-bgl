@@ -5,6 +5,7 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/timer.hpp> // perhaps for better results
 #include "../include/graph_gen.h"
+#include "../include/bellman_ford.h"
 
 #define ITERATIONS 10
 
@@ -129,7 +130,7 @@ double benchmark_my_bf(Graph &G, Vertex start_nodes[]){
         Vertex s = start_nodes[it];
 
         // Run algo
-        //bool no_neg_cycle = bellman_ford(G, int(n), costs, pred, dist)
+        bool no_neg_cycle = bellman_ford(G, s, costs, dist, pred);
 
     }
     elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;

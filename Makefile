@@ -17,7 +17,7 @@ executable: $(BIN)
 $(BIN): $(OBJECTS) 
 	$(CC) $(OBJECTS) -o $(BIN) $(LIB) -L $(LEDA_ROOT)
 
-build/%.o: src/%.cpp include/%.h include/concrete_graph.h
+build/%.o: src/%.cpp include/%.h
 	$(CC) -c $(FLAGS) -I $(LEDA_INCL) $< -o $@
 
 build/main.o: src/main.cpp

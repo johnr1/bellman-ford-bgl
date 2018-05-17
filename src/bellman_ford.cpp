@@ -12,7 +12,7 @@ bool bellman_ford(Graph &G,
                   std::vector<int> &dist,
                   std::vector<Vertex> &pred)
 {
-    Vertex vNil = boost::graph_traits<Graph>::null_vertex();
+    Vertex vNil = boost::graph_traits<Graph>::null_vertex(); //End marker
     unsigned long n = boost::num_vertices(G);
 	long phase_count = 0;
 
@@ -32,13 +32,12 @@ bool bellman_ford(Graph &G,
     in_Q[s] = true;
     Q.emplace(vNil); // end marker
 
-    Vertex u,v;
+    Vertex u;
     while(phase_count < n){
         u = Q.front(); Q.pop();
         if(u == vNil){
             phase_count++;
-            if(Q.empty())
-                return true;
+            if(Q.empty()) return true;
             Q.emplace(vNil);
             continue;
         }
@@ -71,7 +70,17 @@ bool bellman_ford(Graph &G,
 
 
 
-
+/**
+ * Given the dist and pred vectors, calculates the (V+, V- VF)
+ * sets and returns them in a vector containing the VertexLabel
+ * enum for each Vertex
+ *
+ * @param &G The Graph
+ * @param no_cycle Whether it contains a negative circle or not
+ * @param &dist The dist vector
+ * @param &pred The pred vector
+ * @return The set labels for each Vertex
+ */
 std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int> dist, std::vector<Vertex> pred){
     unsigned long n = boost::num_vertices(G);
     std::vector<VertexLabel> labels(n);
@@ -111,6 +120,14 @@ std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int>
     return labels;
 }
 
+
+
+/**
+ * Returns a string of the Vertex label enum (V+, V-, Vf)
+ *
+ * @param vi The VertexLabel enum
+ * @return The std::tring containing the name
+ */
 std::string labelName(VertexLabel vl){
     switch(vl) {
         case VertexLabel::Vminus : return "V-";

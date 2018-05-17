@@ -22,42 +22,23 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    Graph G;// = randomGraph(50);
+    benchmark();
+    return 0;
 
-    boost::add_edge(0,1, EdgeProperties(500), G);
-    boost::add_edge(0,3, EdgeProperties(10), G);
-    boost::add_edge(1,2, EdgeProperties(-5), G);
-    boost::add_edge(2,1, EdgeProperties(-5), G);
-    boost::add_edge(2,3, EdgeProperties(-5), G);
-    boost::add_edge(4,3, EdgeProperties(-5), G);
-
-    Vertex s = 0 ; //boost::random_vertex(G, gen);
-
+    Graph G = randomGraph(50);
+    Vertex s = boost::random_vertex(G, gen);
     unsigned long n = boost::num_vertices(G);
 
     boost::print_graph(G);
 
-    // Declare dist (intialized to int-max -> inf) and pred vectors
-    std::vector<int> dist (n, std::numeric_limits <int>::max());
+    // Declare dist and pred vectors
+    std::vector<int> dist (n);
     std::vector<Vertex> pred(n);
 
     // Get property map from bundled property cost
     CostPropertyMap costs = boost::get(&EdgeProperties::cost, G);
 
-    // Initialize preds to self(signifies null)
-    for (unsigned long i = 0; i < n; ++i)
-        pred[i] = i;
-
-    // Set s as starter vertex
-    dist[s] = 0;
-
-    // Run algo
-    //bool r = bellman_ford_shortest_paths
-    //        (G, int(n), costs, &pred[0], &dist[0],
-    //         boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
-
     bool r = bellman_ford(G, s, costs, dist, pred);
-
 
     if(!r){
         std::cout << "Cycle detected" << std::endl;
