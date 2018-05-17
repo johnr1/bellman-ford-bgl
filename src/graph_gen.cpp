@@ -9,7 +9,7 @@
 /**
  * Returns a random BOOST graph, edge costs: [-100, 10000]
  *
- *	@param n Number of vertexes
+ * @param n Number of vertexes
  * @return The random Graph (as has been typedefed)
  */
 Graph randomGraph(unsigned n){

@@ -22,14 +22,22 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    Graph G = randomGraph(50);
-    Vertex s = boost::random_vertex(G, gen);
+    Graph G;// = randomGraph(50);
+
+    boost::add_edge(0,1, EdgeProperties(500), G);
+    boost::add_edge(0,3, EdgeProperties(10), G);
+    boost::add_edge(1,2, EdgeProperties(-5), G);
+    boost::add_edge(2,1, EdgeProperties(-5), G);
+    boost::add_edge(2,3, EdgeProperties(-5), G);
+    boost::add_edge(4,3, EdgeProperties(-5), G);
+
+    Vertex s = 0 ; //boost::random_vertex(G, gen);
 
     unsigned long n = boost::num_vertices(G);
 
     boost::print_graph(G);
 
-    // Declare dist(intialized to int-max -> inf) and pred vectors
+    // Declare dist (intialized to int-max -> inf) and pred vectors
     std::vector<int> dist (n, std::numeric_limits <int>::max());
     std::vector<Vertex> pred(n);
 
@@ -52,13 +60,17 @@ int main(int argc, char* argv[]) {
         std::cout << "Cycle detected" << std::endl;
     }
 
-
+    // Label the vertexes
     std::vector<VertexLabel> labels = labelVertices(G, r, dist, pred);
 
+    // Print results
     VertexIterator vi, vi_end;
     std::cout << "S: " << s << std::endl;
     for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
-        std::cout << "Vector " << *vi << " | " << "Label: " << int(labels[*vi]) << std::endl;
+        std::cout << "Vertex: " << *vi
+        << " | Dist: "<< (dist[*vi] == std::numeric_limits<int>::max() ? std::string("INF") : std::to_string(dist[*vi]))
+        << " | Pred: " << pred[*vi]
+        << " | Label: " << labelName(labels[*vi]) << std::endl;
     }
 
 

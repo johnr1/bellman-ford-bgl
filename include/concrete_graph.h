@@ -3,10 +3,6 @@
 
 #include <boost/graph/adjacency_list.hpp>
 
-enum class VertexLabel {Vminus = -1, Vf = 0, Vplus = 1};
-//std::string labelNames[] = {"Vminus", "Vf", "Vplus"};
-
-
 struct EdgeProperties {
 	int cost;
 

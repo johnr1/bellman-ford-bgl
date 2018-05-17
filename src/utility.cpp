@@ -2,6 +2,7 @@
 #include "../include/concrete_graph.h"
 #include <LEDA/graph/graph.h>
 
+
 /**
  * Convert a BOOST Graph (as typedefed) into a LEDA
  * parameter GRAPH and returns it.

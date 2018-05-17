@@ -58,3 +58,12 @@ std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int>
     }
     return labels;
 }
+
+std::string labelName(VertexLabel vl){
+    switch(vl) {
+        case VertexLabel::Vminus : return "V-";
+        case VertexLabel::Vf : return "Vf";
+        case VertexLabel::Vplus : return "V+";
+    }
+    return "ERR";
+}
