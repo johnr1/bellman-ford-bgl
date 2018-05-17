@@ -5,7 +5,6 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/timer.hpp> // perhaps for better results
 #include "../include/graph_gen.h"
-#include "../include/utility.h"
 
 #define ITERATIONS 10
 

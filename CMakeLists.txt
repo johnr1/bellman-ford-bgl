@@ -15,7 +15,7 @@ link_directories(${LEDAROOT})
 set(SOURCES
 	"src/main.cpp"
 	"src/graph_gen.cpp"
-		"src/utility.cpp"
+	"src/graph.cpp"
 	"src/bellman_ford.cpp"
 	"src/benchmark.cpp"
 	"src/run.cpp")
@@ -23,8 +23,7 @@ set(SOURCES
 set(HEADERS
 	"include/graph_gen.h"
 	"snippets/io.h"
-	"include/utility.h"
-	"include/concrete_graph.h"
+		"include/graph.h"
     "include/bellman_ford.h"
 	"include/benchmark.h"
 	"include/run.h")

@@ -1,5 +1,4 @@
-#include "../include/utility.h"
-#include "../include/concrete_graph.h"
+#include "../include/graph.h"
 #include <LEDA/graph/graph.h>
 
 

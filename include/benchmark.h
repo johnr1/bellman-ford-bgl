@@ -1,7 +1,7 @@
 #ifndef BENCHMARK_H
 #define BENCHMARK_H
 
-#include "../include/concrete_graph.h"
+#include "graph.h"
 #include <LEDA/graph/graph.h>
 
 

@@ -1,7 +1,7 @@
 #include <vector>
 
 #include "../include/bellman_ford.h"
-#include "../include/concrete_graph.h"
+#include "../include/graph.h"
 
 
 bool bellman_ford(const Graph &G,

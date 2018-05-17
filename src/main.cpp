@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "../include/concrete_graph.h"
+#include "../include/graph.h"
 #include "../include/benchmark.h"
 #include "../include/run.h"
 

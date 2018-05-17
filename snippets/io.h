@@ -1,7 +1,7 @@
 #ifndef IO_H
 #define IO_H
 
-#include "../include/concrete_graph.h"
+#include "../include/graph.h"
 
 // SIMPLE COST WRITER
 class CostEdgeWriter {

@@ -1,7 +1,7 @@
 #ifndef RUN_H
 #define RUN_H
 
-#include "../include/concrete_graph.h"
+#include "graph.h"
 #include <LEDA/graph/graph.h>
 
 void run_boost_bf(const Graph &, const Vertex s, bool printResults = true );

@@ -1,8 +1,10 @@
-#ifndef CON_GRAPH_H
-#define CON_GRAPH_H
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include <boost/graph/adjacency_list.hpp>
+#include <LEDA/graph/graph.h>
 
+// ===== CONCRETE GRAPH STRUCTURE =====
 struct EdgeProperties {
 	int cost;
 
@@ -23,5 +25,12 @@ typedef boost::graph_traits<Graph>::edge_iterator EdgeIterator;
 typedef boost::graph_traits<Graph>::out_edge_iterator OutEdgeIterator;
 
 typedef boost::property_map<Graph, int EdgeProperties::*>::type CostPropertyMap;
+
+
+
+
+// ===== FUNCTIONS =====
+leda::GRAPH<unsigned, int> boostToLeda(const Graph &);
+
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef BELLMAN_FORD_H
 #define BELLMAN_FORD_H
 
-#include "concrete_graph.h"
+#include "graph.h"
 
 enum class VertexLabel {Vminus = -1, Vf = 0, Vplus = 1};
 std::string labelName(VertexLabel);

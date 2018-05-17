@@ -1,7 +1,7 @@
 #ifndef GRAPH_GEN_H
 #define GRAPH_GEN_H
 
-#include "../include/concrete_graph.h"
+#include "graph.h"
 
 typedef std::pair<unsigned, unsigned> VertexPair;
 
