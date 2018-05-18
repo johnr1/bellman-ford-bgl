@@ -2,18 +2,15 @@
 #include "../include/bellman_ford.h"
 
 #include <iostream>
-#include <string>
-#include <cstdlib>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/timer.hpp>
 #include <LEDA/graph/graph.h>
 //#include <LEDA/graph/templates/shortest_path.h>
-#include <boost/graph/graph_utility.hpp>
 
 void run_boost_bf(Graph &G, Vertex s){
-    unsigned long n = boost::num_vertices(G);
-
     std::cout << "Running Internal boost algorithm" << std::endl;
+
+    unsigned long n = boost::num_vertices(G);
 
     // Start timer (dist is initialized in constructor so timer starts before that)
     boost::timer timer;
@@ -45,9 +42,12 @@ void run_boost_bf(Graph &G, Vertex s){
     if (no_neg_cycle){
         VertexIterator vi, vi_end;
         for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
-            std::cout << "Vertex: " << *vi
-                      << " | Dist: "<< dist[*vi]
-                      << " | Pred: " << pred[*vi] << std::endl;
+            std::cout << "Vertex: " << *vi;
+            std::cout << " | Dist: "<< dist[*vi];
+            std::cout << " | Pred: ";
+            if(pred[*vi] == *vi) std::cout << "nil";
+            else std::cout << pred[*vi];
+            std::cout << std::endl;
         }
     }
     else
@@ -82,18 +82,15 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     if (!no_neg_cycle) {
         std::cout << "Negative cycled detected." << std::endl;
     }
-    std::cout << "S vertex is: "; G.print_node(s); std::cout << std::endl;
+    std::cout << "S vertex is: "; s->id(); std::cout << std::endl;
 
     leda::node v;
     forall_nodes(v, G) {
             std::cout << "Vertex: " << v->id() ;
             std::cout << " | Dist: "<< dist[v] << " | Pred: ";
-			if(pred[v] != nil)
-				std::cout << G.source(pred[v])->id();
-			else
-				std::cout << "nil";
+			if(pred[v] == nil) std::cout << "nil";
+			else std::cout << G.source(pred[v])->id();
             std::cout << " | Label: " << labelName(labels[v]) << std::endl;
-            std::cout << std::endl;
     }
     std::cout << "Time to complete: " << elapsed_time << std::endl;
 }
@@ -130,10 +127,12 @@ void run_my_bf(Graph &G, Vertex s){
 
     VertexIterator vi, vi_end;
     for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
-        std::cout << "Vertex: " << *vi
-                  << " | Dist: "<< dist[*vi]
-                  << " | Pred: " << pred[*vi]
-                  << " | Label: " << labelName(labels[*vi]) << std::endl;
+        std::cout << "Vertex: " << *vi;
+        std::cout << " | Dist: "<< dist[*vi];
+        std::cout << " | Pred: ";
+        if(pred[*vi] == *vi) std::cout << "nil";
+        else std::cout << pred[*vi];
+        std::cout << " | Label: " << labelName(labels[*vi]) << std::endl;
     }
 
     std::cout << "Time to complete: " << elapsed_time << std::endl;

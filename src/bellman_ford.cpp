@@ -5,7 +5,6 @@
 #include "../include/bellman_ford.h"
 #include "../include/graph.h"
 
-
 inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<int> &dist, std::vector<Vertex> &pred);
 
 bool bellman_ford(Graph &G,
@@ -14,7 +13,7 @@ bool bellman_ford(Graph &G,
                   std::vector<int> &dist,
                   std::vector<Vertex> &pred)
 {
-    Vertex sperator = boost::graph_traits<Graph>::null_vertex(); //End marker
+    Vertex separator = boost::graph_traits<Graph>::null_vertex(); //End marker
     unsigned long n = boost::num_vertices(G);
 	long phase_count = 0;
 
@@ -30,15 +29,15 @@ bool bellman_ford(Graph &G,
     dist[s] = 0;
     Q.emplace(s);
     in_Q[s] = true;
-    Q.emplace(sperator); // end marker
+    Q.emplace(separator); // end marker
 
     Vertex u;
     while(phase_count < n){
         u = Q.front(); Q.pop();
-        if(u == sperator){
+        if(u == separator){
             phase_count++;
             if(Q.empty()) return true;
-            Q.emplace(sperator);
+            Q.emplace(separator);
             continue;
         }
         else
@@ -50,7 +49,7 @@ bool bellman_ford(Graph &G,
         for(boost::tie(ei, ei_end) = boost::out_edges(u, G); ei != ei_end; ++ei){
             Vertex v = boost::target(*ei, G);
             int d = du + costs[*ei];
-            if((pred[v] == sperator && v != s) || d < dist[v]){
+            if((pred[v] == separator && v != s) || d < dist[v]){
                 dist[v] = d;
                 pred[v] = u;
                 if( !in_Q[v] ){

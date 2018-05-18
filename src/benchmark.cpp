@@ -1,12 +1,11 @@
 #include "../include/benchmark.h"
 
-#include <boost/graph/random.hpp>
-#include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/random/mersenne_twister.hpp>
-#include <boost/timer.hpp> // perhaps for better results
 #include "../include/graph_gen.h"
 #include "../include/bellman_ford.h"
+
 //#include <LEDA/graph/templates/shortest_path.h>
+#include <boost/graph/bellman_ford_shortest_paths.hpp>
 
 #define ITERATIONS 10
 
@@ -21,8 +20,8 @@ void benchmark(){
     std::cout << "Running benchmark, results will appear as executions complete..." << std::endl;
     std::cout << "Please be patient..." << std::endl << std::endl;
 
-    std::vector<std::pair<std::string, unsigned>>::iterator test = tests.begin();
-    for(; test != tests.end(); ++test){
+    //std::vector<std::pair<std::string, unsigned>>::iterator test = tests.begin();
+    for(auto test = tests.begin(); test != tests.end(); ++test){
         std::string graph_type = test->first;
         unsigned n = test->second;
 

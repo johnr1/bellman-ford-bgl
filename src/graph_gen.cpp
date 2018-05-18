@@ -2,7 +2,6 @@
 #include <boost/graph/random.hpp>
 #include <boost/graph/make_connected.hpp>
 #include <boost/random/mersenne_twister.hpp>
-#include <cstdlib>
 
 #include "../include/graph_gen.h"
 
