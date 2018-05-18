@@ -4,13 +4,21 @@
 #include <iostream>
 #include <cstdlib>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
+#include <boost/timer.hpp>
 #include <LEDA/graph/graph.h>
+#include <boost/graph/graph_utility.hpp>
 
-
-void run_boost_bf(Graph &G, Vertex s, bool printResults){
+void run_boost_bf(Graph &G, Vertex s){
     unsigned long n = boost::num_vertices(G);
 
-    // Declare dist(intialized to int-max -> inf) and pred vectors
+    std::cout << "Running Internal boost algorithm" << std::endl;
+    std::cout << "GRAPH:" << std::endl;
+    boost::print_graph(G);
+
+    // Start timer (dist is initialized in constructor so timer starts before that)
+    boost::timer timer;
+
+    // Declare dist (intialized to int-max -> inf) and pred vectors
     std::vector<int> dist (n, std::numeric_limits <int>::max());
     std::vector<Vertex> pred(n);
 
@@ -25,29 +33,36 @@ void run_boost_bf(Graph &G, Vertex s, bool printResults){
     dist[s] = 0;
 
     // Run algo
-    bool r = bellman_ford_shortest_paths
+    bool no_neg_cycle = bellman_ford_shortest_paths
             (G, int(n), costs, &pred[0], &dist[0],
              boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
 
+    // Stop timer
+    auto elapsed_time = timer.elapsed();
 
-    if(!printResults)
-        return;
     // Print results
     std::cout << "S vertex is: " << s << std::endl;
-    if (r){
-        std::pair<VertexIterator, VertexIterator> vi;
-        for (vi = vertices(G); vi.first != vi.second; ++vi.first)
-            std::cout << "Vertex " << *vi.first << ": " << "Distance from s=" << dist[*vi.first]
-                << " | pred=" << pred[*vi.first] << std::endl;
+    if (no_neg_cycle){
+        VertexIterator vi, vi_end;
+        for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
+            std::cout << "Vertex: " << *vi
+                      << " | Dist: "<< (dist[*vi] == std::numeric_limits<int>::max() ? std::string("+INF") : std::to_string(dist[*vi]))
+                      << " | Pred: " << pred[*vi] << std::endl;
+        }
     }
     else
         std::cout << "Negative cycled detected on boost Bellman ford." << std::endl;
 
+    std::cout << "Time to complete: " << elapsed_time << std::endl;
 }
 
 
-void run_leda_bf(const leda::GRAPH<unsigned, int> &G, const leda::node s, bool printResults){
+void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     long n = G.number_of_nodes();
+
+    std::cout << "Running LEDA algorithm" << std::endl;
+    std::cout << "GRAPH:" << std::endl;
+    G.print();
 
     // Declare node_arrays dist and pred
     leda::node_array<leda::edge> pred(G);
@@ -56,26 +71,69 @@ void run_leda_bf(const leda::GRAPH<unsigned, int> &G, const leda::node s, bool p
     // Get property cost from inside GRAPH
     auto costs = G.edge_data();
 
+    // Start timer
+    boost::timer timer;
+
     // Run algo
-    bool no_neg_cycle;
-#ifdef RUNNING_ON_DIOGENIS
-    no_neg_cycle = BELLMAN_FORD_T(G,s,costs,dist,pred);
-#else
-    std::cout << "no leda algorithms available on free edition" << std::endl;
-    return;
-#endif
+    bool no_neg_cycle = false; //BELLMAN_FORD_T(G,s,costs,dist,pred);
 
-    if(!printResults)
-        return;
+    //Stop timer
+    auto elapsed_time = timer.elapsed();
+
     // Print results
-    if (no_neg_cycle){
-        leda::node v;
-        forall_nodes(v, G) {
-            std::cout << "Vertex " << v << ": " << "Distance from s=" << dist[v] << " | pred=" << pred[v] << std::endl;
-        }
+    if (!no_neg_cycle) {
+        std::cout << "Negative cycled detected." << std::endl;
     }
-    else
-        std::cout << "Negative cycled detected on Bool bellmand ford." << std::endl;
+    std::cout << "S vertex is: "; G.print_node(s); std::cout << std::endl;
 
+    leda::node v;
+    forall_nodes(v, G) {
+            std::cout << "Vertex: " ; G.print_node(v) ;
+            std::cout << " | Dist: "<< dist[v]
+                      << " | Pred: " << pred[v] << std::endl;
+    }
+    std::cout << "Time to complete: " << elapsed_time << std::endl;
 }
 
+void run_my_bf(Graph &G, Vertex s){
+    unsigned long n = boost::num_vertices(G);
+
+    std::cout << "Running my Bellman Ford algorithm" << std::endl;
+    std::cout << "GRAPH:" << std::endl;
+    boost::print_graph(G);
+
+    // Declare dist(intialized to int-max -> inf) and pred vectors
+    std::vector<int> dist (n);
+    std::vector<Vertex> pred(n);
+
+    // Get property map from bundled property cost
+    CostPropertyMap costs = boost::get(&EdgeProperties::cost, G);
+
+    // Start timer
+    boost::timer timer;
+
+    // Run algo
+    bool no_neg_cycle = bellman_ford(G, s, costs, dist, pred);
+
+    // Stop timer
+    auto elapsed_time = timer.elapsed();
+
+    // Categorize labels
+    auto labels = labelVertices(G, no_neg_cycle, dist, pred);
+
+    // Print results
+    std::cout << "S vertex is: " << s << std::endl;
+    if (!no_neg_cycle) {
+        std::cout << "Negative cycled detected." << std::endl;
+    }
+
+    VertexIterator vi, vi_end;
+    for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
+        std::cout << "Vertex: " << *vi
+                  << " | Dist: "<< (dist[*vi] == std::numeric_limits<int>::max() ? std::string("+INF") : std::to_string(dist[*vi]))
+                  << " | Pred: " << pred[*vi]
+                  << " | Label: " << labelName(labels[*vi]) << std::endl;
+    }
+
+    std::cout << "Time to complete: " << elapsed_time << std::endl;
+}

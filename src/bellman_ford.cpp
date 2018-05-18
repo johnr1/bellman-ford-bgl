@@ -81,7 +81,7 @@ bool bellman_ford(Graph &G,
  * @param &pred The pred vector
  * @return The set labels for each Vertex
  */
-std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int> dist, std::vector<Vertex> pred){
+std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int> &dist, std::vector<Vertex> &pred){
     unsigned long n = boost::num_vertices(G);
     std::vector<VertexLabel> labels(n);
 

@@ -15,8 +15,8 @@ bool bellman_ford(Graph&,
 
 std::vector<VertexLabel> labelVertices(Graph &G,
 									   bool contains_cycle,
-									   std::vector<int> dist,
-									   std::vector<Vertex> pred);
+									   std::vector<int> &dist,
+									   std::vector<Vertex> &pred);
 
 
 

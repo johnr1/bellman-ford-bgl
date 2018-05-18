@@ -4,8 +4,8 @@
 #include "graph.h"
 #include <LEDA/graph/graph.h>
 
-void run_boost_bf(const Graph &, const Vertex s, bool printResults = true );
-void run_leda_bf(const leda::GRAPH<unsigned, int> &G, const leda::node s, bool printResults = true);
-
+void run_boost_bf(Graph &, Vertex s);
+void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s);
+void run_my_bf(Graph &, Vertex s);
 
 #endif

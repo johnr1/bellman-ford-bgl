@@ -22,44 +22,19 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    benchmark();
-    return 0;
+    Graph G; //= randomGraph(50);
+    Vertex s; // = boost::random_vertex(G, gen);
 
-    Graph G = randomGraph(50);
-    Vertex s = boost::random_vertex(G, gen);
-    unsigned long n = boost::num_vertices(G);
+    boost::add_edge(0,1, EdgeProperties(500), G);
+    boost::add_edge(0,3, EdgeProperties(10), G);
+    boost::add_edge(1,2, EdgeProperties(-5), G);
+    boost::add_edge(2,1, EdgeProperties(-5), G);
+    boost::add_edge(2,3, EdgeProperties(-5), G);
+    boost::add_edge(4,3, EdgeProperties(-5), G);
 
-    boost::print_graph(G);
+    s = 0;
 
-    // Declare dist and pred vectors
-    std::vector<int> dist (n);
-    std::vector<Vertex> pred(n);
-
-    // Get property map from bundled property cost
-    CostPropertyMap costs = boost::get(&EdgeProperties::cost, G);
-
-    bool r = bellman_ford(G, s, costs, dist, pred);
-
-    if(!r){
-        std::cout << "Cycle detected" << std::endl;
-    }
-
-    // Label the vertexes
-    std::vector<VertexLabel> labels = labelVertices(G, r, dist, pred);
-
-    // Print results
-    VertexIterator vi, vi_end;
-    std::cout << "S: " << s << std::endl;
-    for(boost::tie(vi, vi_end) = vertices(G); vi != vi_end; ++vi){
-        std::cout << "Vertex: " << *vi
-        << " | Dist: "<< (dist[*vi] == std::numeric_limits<int>::max() ? std::string("INF") : std::to_string(dist[*vi]))
-        << " | Pred: " << pred[*vi]
-        << " | Label: " << labelName(labels[*vi]) << std::endl;
-    }
-
-
-
-
+    run_my_bf(G, s);
 
     //benchmark();
     return 0;
