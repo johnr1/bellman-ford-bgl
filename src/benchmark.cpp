@@ -6,6 +6,7 @@
 #include <boost/timer.hpp> // perhaps for better results
 #include "../include/graph_gen.h"
 #include "../include/bellman_ford.h"
+//#include <LEDA/graph/templates/shortest_path.h>
 
 #define ITERATIONS 10
 

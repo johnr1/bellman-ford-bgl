@@ -144,6 +144,45 @@ std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int>
 }
 
 
+leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,int> &G, bool no_cycle, leda::node s, leda::node_array<int> &dist, leda::node_array<leda::edge> &pred){
+    leda::node_array<VertexLabel> labels(G);
+
+    leda::node v;
+    forall_nodes(v, G){
+        // If dist = inf
+        if(pred[v] == nil && v != s){
+            labels[v] = VertexLabel::Vplus;
+            continue;
+        }
+
+        if(no_cycle){
+            labels[v] = VertexLabel::Vf;
+            continue;
+        }
+
+        leda::node_array<bool> reachable(G);
+        leda::node cur = v;
+        reachable[cur] = true;
+        while(true){
+            // if pred == null (symbolized as parent==self)
+            if(pred[cur] == nil){
+                labels[v] = VertexLabel::Vf;
+                break;
+            }
+                // if we saw same vertex, reachable from neg cycle
+            else if(reachable[G.source(pred[cur])]){
+                labels[v] = VertexLabel::Vminus;
+                break;
+            }
+
+            reachable[cur] = true;
+            G.source(pred[cur]);
+        }
+    }
+    return labels;
+}
+
+
 
 /**
  * Returns a string of the Vertex label enum (V+, V-, Vf)

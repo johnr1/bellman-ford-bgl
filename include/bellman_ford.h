@@ -18,6 +18,8 @@ std::vector<VertexLabel> labelVertices(Graph &G,
 									   std::vector<int> &dist,
 									   std::vector<Vertex> &pred);
 
+leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,int> &G, bool no_cycle, leda::node s, leda::node_array<int> &dist, leda::node_array<leda::edge> &pred);
+
 
 
 #endif
