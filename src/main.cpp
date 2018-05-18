@@ -22,19 +22,15 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    Graph G; //= randomGraph(50);
-    Vertex s; // = boost::random_vertex(G, gen);
+    Graph BG = myGridGraph(5);
+    auto LG = boostToLeda(BG);
+    auto Ls = LG.first_node();
+    auto Bs = LG[Ls];
 
-    boost::add_edge(0,1, EdgeProperties(500), G);
-    boost::add_edge(0,3, EdgeProperties(10), G);
-    boost::add_edge(1,2, EdgeProperties(-5), G);
-    boost::add_edge(2,1, EdgeProperties(-5), G);
-    boost::add_edge(2,3, EdgeProperties(-5), G);
-    boost::add_edge(4,3, EdgeProperties(-5), G);
 
-    s = 0;
-
-    run_my_bf(G, s);
+    run_my_bf(BG, Bs);
+    run_boost_bf(BG,Bs);
+    //run_leda_bf(LG, Ls);
 
     //benchmark();
     return 0;

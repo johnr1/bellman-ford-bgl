@@ -33,7 +33,10 @@ void benchmark(){
 
         // Pick same random nodes, translate them between formats
         for(int i=0; i<ITERATIONS; ++i){
-            auto v = LG.choose_node();
+            leda::node v = LG.choose_node(); // Pick random, if grid, change to first
+            if(graph_type == "Grid")
+                v = LG.first_node();
+
             l_start_nodes[i] = v;
             b_start_nodes[i] = LG[v];
         }

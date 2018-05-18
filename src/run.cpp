@@ -12,8 +12,6 @@ void run_boost_bf(Graph &G, Vertex s){
     unsigned long n = boost::num_vertices(G);
 
     std::cout << "Running Internal boost algorithm" << std::endl;
-    std::cout << "GRAPH:" << std::endl;
-    boost::print_graph(G);
 
     // Start timer (dist is initialized in constructor so timer starts before that)
     boost::timer timer;
@@ -61,8 +59,6 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     long n = G.number_of_nodes();
 
     std::cout << "Running LEDA algorithm" << std::endl;
-    std::cout << "GRAPH:" << std::endl;
-    G.print();
 
     // Declare node_arrays dist and pred
     leda::node_array<leda::edge> pred(G);
@@ -99,8 +95,6 @@ void run_my_bf(Graph &G, Vertex s){
     unsigned long n = boost::num_vertices(G);
 
     std::cout << "Running my Bellman Ford algorithm" << std::endl;
-    std::cout << "GRAPH:" << std::endl;
-    boost::print_graph(G);
 
     // Declare dist(intialized to int-max -> inf) and pred vectors
     std::vector<int> dist (n);
