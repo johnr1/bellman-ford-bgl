@@ -12,16 +12,18 @@
 void benchmark(){
     boost::mt19937 gen(time(NULL));
 
-    std::pair<std::string, unsigned> tests[] = {{"Random", 1000},{"Random", 4000},{"Random", 9000},{"Grid", 100},{"Grid", 200},{"Grid", 300}};
+    std::vector<std::pair<std::string, unsigned>> tests =
+            {{"Random", 1000},{"Random", 4000},{"Random", 9000},{"Grid", 100},{"Grid", 200},{"Grid", 300}};
     Vertex b_start_nodes[ITERATIONS];
     leda::node l_start_nodes[ITERATIONS];
 
     std::cout << "Running benchmark, results will appear as executions complete..." << std::endl;
     std::cout << "Please be patient..." << std::endl << std::endl;
 
-    for(auto &test : tests){
-        std::string graph_type = test.first;
-        unsigned n = test.second;
+    std::vector<std::pair<std::string, unsigned>>::iterator test = tests.begin();
+    for(; test != tests.end(); ++test){
+        std::string graph_type = test->first;
+        unsigned n = test->second;
 
         Graph BG;
         if(graph_type == "Random")
@@ -29,7 +31,7 @@ void benchmark(){
         else if(graph_type == "Grid")
             BG = myGridGraph(n);
 
-        auto LG = boostToLeda(BG);
+        leda::GRAPH<unsigned, int> LG = boostToLeda(BG);
 
         // Pick same random nodes, translate them between formats
         for(int i=0; i<ITERATIONS; ++i){
@@ -95,14 +97,12 @@ double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
 
 
 double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[]){
-    int n = G.number_of_nodes();
-
     // Declare node_arrays dist and pred
     leda::node_array<leda::edge> pred(G);
     leda::node_array<int> dist(G);
 
     // Get property cost from inside GRAPH
-    auto costs = G.edge_data();
+    leda::edge_array<int> costs = G.edge_data();
 
     double elapsed_time = 0;
     std::clock_t start = clock();

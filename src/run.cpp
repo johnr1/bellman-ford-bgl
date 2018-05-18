@@ -36,7 +36,7 @@ void run_boost_bf(Graph &G, Vertex s){
              boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
 
     // Stop timer
-    auto elapsed_time = timer.elapsed();
+    double elapsed_time = timer.elapsed();
 
     // Print results
     std::cout << "S vertex is: " << s << std::endl;
@@ -56,8 +56,6 @@ void run_boost_bf(Graph &G, Vertex s){
 
 
 void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
-    long n = G.number_of_nodes();
-
     std::cout << "Running LEDA algorithm" << std::endl;
 
     // Declare node_arrays dist and pred
@@ -65,7 +63,7 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     leda::node_array<int> dist(G);
 
     // Get property cost from inside GRAPH
-    auto costs = G.edge_data();
+    leda::edge_array<int> costs = G.edge_data();
 
     // Start timer
     boost::timer timer;
@@ -74,7 +72,7 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     bool no_neg_cycle = false; //BELLMAN_FORD_T(G,s,costs,dist,pred);
 
     //Stop timer
-    auto elapsed_time = timer.elapsed();
+    double elapsed_time = timer.elapsed();
 
     // Print results
     if (!no_neg_cycle) {
@@ -110,10 +108,10 @@ void run_my_bf(Graph &G, Vertex s){
     bool no_neg_cycle = bellman_ford(G, s, costs, dist, pred);
 
     // Stop timer
-    auto elapsed_time = timer.elapsed();
+    double elapsed_time = timer.elapsed();
 
     // Categorize labels
-    auto labels = labelVertices(G, no_neg_cycle, dist, pred);
+    std::vector<VertexLabel> labels = labelVertices(G, no_neg_cycle, dist, pred);
 
     // Print results
     std::cout << "S vertex is: " << s << std::endl;

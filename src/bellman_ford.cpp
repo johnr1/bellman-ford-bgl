@@ -21,13 +21,11 @@ bool bellman_ford(Graph &G,
 	std::queue<Vertex> Q;
 	std::vector<bool> in_Q(n, false);
 
-    // Make everything equal infinity
-	for(auto &d : dist)
-	    d = std::numeric_limits<int>::max();
-
-	// Make parent = self (signifies null)
-	for(unsigned long i; i<n; i++)
-	    pred[i] = i;
+	// Make parent = self (signifies null) and dist=inf
+	for(unsigned long i; i<n; i++) {
+	    dist[i] = std::numeric_limits<int>::max();
+        pred[i] = i;
+    }
 
     dist[s] = 0;
     Q.emplace(s);
