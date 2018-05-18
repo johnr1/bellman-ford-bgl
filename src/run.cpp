@@ -71,7 +71,7 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     boost::timer timer;
 
     // Run algo
-    bool no_neg_cycle = false //BELLMAN_FORD_B_T(G,s,costs,dist,pred);
+    bool no_neg_cycle = false; //BELLMAN_FORD_B_T(G,s,costs,dist,pred);
 
     //Stop timer
     double elapsed_time = timer.elapsed();

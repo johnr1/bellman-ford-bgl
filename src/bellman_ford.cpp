@@ -22,7 +22,7 @@ bool bellman_ford(Graph &G,
 	std::vector<bool> in_Q(n, false);
 
 	// Make parent = self (signifies null) and dist=inf
-	for(unsigned long i; i<n; i++) {
+	for(unsigned long i=0; i<n; i++) {
 	    dist[i] = std::numeric_limits<int>::max();
         pred[i] = i;
     }

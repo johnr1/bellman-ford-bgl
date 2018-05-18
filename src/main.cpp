@@ -22,15 +22,14 @@ int main(int argc, char* argv[]) {
     srand (time(NULL));
     boost::mt19937 gen(time(NULL));
 
-    Graph BG = randomGraph(30);
+    Graph BG = randomGraph(50);
     auto LG = boostToLeda(BG);
     auto Ls = LG.first_node();
     auto Bs = LG[Ls];
 
 
 
-
-    //run_my_bf(BG, Bs);
+    run_my_bf(BG, Bs);
     //run_boost_bf(BG,Bs);
     //run_leda_bf(LG, Ls);
 
