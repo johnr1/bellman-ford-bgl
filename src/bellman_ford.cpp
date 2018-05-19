@@ -104,3 +104,55 @@ inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node
         }
     }
 }
+
+
+/**
+ * UNUSED
+ * Implements the DFS algorithm from 
+ * a start Vertex.
+ * 
+ * @param &G The graph to search
+ * @param s The starter vertex
+ * @param &reachable The bool vector showing if reachable
+ *
+ */
+void dfs(Graph &G, Vertex s, std::vector<bool> &reachable){
+    reachable[s] = true;
+    
+    OutEdgeIterator ei, ei_end;
+    for(boost::tie(ei, ei_end) = boost::out_edges(s, G); ei != ei_end; ++ei){
+        Vertex w = boost::target(*ei, G);
+        if(!reachable[w])
+            dfs(G, w, reachable);
+    }
+}
+
+
+
+//bool bellman_ford_checker (Graph&,
+// 				  Vertex s,
+// 				  CostPropertyMap &costs,
+// 				  std::vector<long> &dist,
+// 				  std::vector<Vertex> &pred)
+// {
+//     unsigned long n = boost::num_vertices(G);
+//     enum{ NEG_CYCLE = -2, ATT_TO_CYCLE = -1, FINITE = 0, PLUS = 1, CYCLE = 2, ON_CUR_PATH = 3, UNKNOWN = 4 };
+
+//     std::vector<Vertex> label(n,UNKNOWN);
+//     std::vector<bool> reachable(n,false);
+
+//     DFS(G,s,reachable);
+
+//     Vertex v;
+
+//     VertexIterator vi, vi_end;
+//     for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
+//         if( *vi != s ){
+//             if(!(pred[*vi] == *vi) == (reachable[*vi] == false)) return false;
+//             if(reachable[*vi] == false) label[*vi] = false;
+//         }
+//     }
+
+//     // ==================================
+
+// }

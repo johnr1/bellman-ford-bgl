@@ -10,6 +10,6 @@ bool bellman_ford(Graph&,
 				  std::vector<Vertex> &pred);
 
 
-
+void dfs(Graph &G, Vertex s, std::vector<bool> &reachable);
 
 #endif

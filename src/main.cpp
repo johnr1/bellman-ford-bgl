@@ -8,6 +8,8 @@
 #include "../include/benchmark.h"
 #include "../include/run.h"
 
+#include "../include/bellman_ford.h"
+
 enum class Command {benchmark, run};
 
 Command command;
