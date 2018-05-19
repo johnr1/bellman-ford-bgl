@@ -1,8 +1,6 @@
 - Perhaps change dist back to long 
-- Write argument parser
+- Write in graphviz format
 - Write algo checker
 - Test if dist can truly replace DFS
 - Optimize bellman ford
-- Clean up directory structures , reorganize files
 - Write docstrings
-

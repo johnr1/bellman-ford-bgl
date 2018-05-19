@@ -13,7 +13,7 @@
  */
 Graph randomGraph(unsigned n){
     Graph G;
-	auto m = static_cast<unsigned>(20 * n * log(n));
+	auto m = static_cast<unsigned>(20 * n * log10(n));
 
 	boost::mt19937 gen(time(NULL)); //Seed with current time
     boost::generate_random_graph(G, n, m, gen, false, false);

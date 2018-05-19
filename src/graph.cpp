@@ -37,3 +37,20 @@ leda::GRAPH<unsigned, int> boostToLeda(const Graph &BG){
 
 	return LG;
 }
+
+/**
+ * Translates the GraphType enum to
+ * std::string;
+ * 
+ * @gt The GraphType class enum
+ * @return The string corrisponding to that graph type
+ * 
+ */
+std::string graphName(GraphType gt){
+	switch(gt) {
+        case GraphType::random : return "Random";
+        case GraphType::grid : return "Grid";
+    }
+	return "ERR";
+}
+

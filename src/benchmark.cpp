@@ -8,57 +8,54 @@
 #include <LEDA/graph/templates/shortest_path.h>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 
-#define ITERATIONS 10
 
-void benchmark(){
+/**
+ * Runs, times and prints the time to compelete
+ * the bellman ford algorithm.
+ *
+ */
+void benchmark(unsigned n, GraphType graph_type, unsigned ITERATIONS){
     boost::mt19937 gen(time(NULL));
+    std::cout << "Running benchmark for " << ITERATIONS << "iteration(s)..." << std::endl;    
 
-    std::vector<std::pair<std::string, unsigned>> tests =
-            {{"Random", 1000},{"Random", 4000},{"Random", 9000},{"Grid", 100},{"Grid", 200},{"Grid", 300}};
+    Graph BG;
     Vertex b_start_nodes[ITERATIONS];
     leda::node l_start_nodes[ITERATIONS];
 
-    std::cout << "Running benchmark, results will appear as executions complete..." << std::endl;
-    std::cout << "Please be patient..." << std::endl << std::endl;
+    // Generate graph
+    if(graph_type == GraphType::random)
+        BG = randomGraph(n);
+    else if(graph_type == GraphType::grid)
+        BG = myGridGraph(n);
 
-    //std::vector<std::pair<std::string, unsigned>>::iterator test = tests.begin();
-    for(auto test = tests.begin(); test != tests.end(); ++test){
-        std::string graph_type = test->first;
-        unsigned n = test->second;
+    // Make copy in LEDA format
+    leda::GRAPH<unsigned, int> LG = boostToLeda(BG);
 
-        Graph BG;
-        if(graph_type == "Random")
-            BG = randomGraph(n);
-        else if(graph_type == "Grid")
-            BG = myGridGraph(n);
+    std::cout << "Graph Type: " << graphName(graph_type) <<" | Nodes: " << boost::num_vertices(BG) << " | Edges: " << boost::num_edges(BG) << std::endl;    
 
-        leda::GRAPH<unsigned, int> LG = boostToLeda(BG);
+    // Pick same random nodes, translate them between formats
+    for(unsigned i=0; i<ITERATIONS; ++i){
+        leda::node v = LG.choose_node(); // Pick random, if grid, change to first
+        if(graph_type == GraphType::grid)
+            v = LG.first_node();
 
-        // Pick same random nodes, translate them between formats
-        for(int i=0; i<ITERATIONS; ++i){
-            leda::node v = LG.choose_node(); // Pick random, if grid, change to first
-            if(graph_type == "Grid")
-                v = LG.first_node();
-
-            l_start_nodes[i] = v;
-            b_start_nodes[i] = LG[v];
-        }
-
-        double boost_time = benchmark_boost_bf(BG, b_start_nodes);
-        double leda_time = benchmark_leda_bf(LG, l_start_nodes);
-        double my_time = benchmark_my_bf(BG, b_start_nodes);
-
-        std::cout << "Graph Type: " << graph_type <<" | Nodes: " << boost::num_vertices(BG) << " | Edges: " << boost::num_edges(BG) << std::endl;
-        std::cout << "BOOST_BF Time: " << boost_time << "s" << (boost_time<0 ? " (cycle detected)" : " ") << std::endl;
-        std::cout << "LEDA_BF Time: " << leda_time << "s" << std::endl;
-        std::cout << "MY_BF Time: " << my_time << "s" << std::endl << std::endl;
+        l_start_nodes[i] = v;
+        b_start_nodes[i] = LG[v];
     }
+
+    double boost_time = benchmark_boost_bf(BG, b_start_nodes, ITERATIONS);
+    double leda_time = benchmark_leda_bf(LG, l_start_nodes, ITERATIONS);
+    double my_time = benchmark_my_bf(BG, b_start_nodes, ITERATIONS);
+
+    std::cout << "BOOST_BF Time: " << boost_time << "s" << (boost_time<0 ? " (cycle detected)" : " ") << std::endl;
+    std::cout << "LEDA_BF Time: " << leda_time << "s" << std::endl;
+    std::cout << "MY_BF Time: " << my_time << "s" << std::endl << std::endl;
 }
 
 
 /* ========== Algorithm executors and timers ========== */
 
-double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
+double benchmark_boost_bf(Graph &G, Vertex start_nodes[], unsigned ITERATIONS){
     unsigned long n = boost::num_vertices(G);
 
     // Get property map from bundled property cost
@@ -70,7 +67,7 @@ double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
 
     double elapsed_time = 0;
     std::clock_t start = clock();
-    for(int it=0; it<ITERATIONS; ++it){
+    for(unsigned it=0; it<ITERATIONS; ++it){
         Vertex s = start_nodes[it];
 
         // Set pred to self (signifies null) and dist to max (required before running boost_bf)
@@ -97,7 +94,7 @@ double benchmark_boost_bf(Graph &G, Vertex start_nodes[]){
 }
 
 
-double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[]){
+double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[], unsigned ITERATIONS){
     // Declare node_arrays dist and pred
     leda::node_array<leda::edge> pred(G);
     leda::node_array<int> dist(G);
@@ -107,18 +104,21 @@ double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[]
 
     double elapsed_time = 0;
     std::clock_t start = clock();
-    for(int it=0; it<ITERATIONS; ++it){
+    for(unsigned it=0; it<ITERATIONS; ++it){
         leda::node s = start_nodes[it];
 
         // Run algo
-        bool no_neg_cycle = BELLMAN_FORD_T(G,s,costs,dist,pred);
+        bool no_neg_cycle = BELLMAN_FORD_B_T(G,s,costs,dist,pred);
+        if(!no_neg_cycle){
+            std::cout << "leda_cycle_detected" << std::endl;
+        }
     }
     elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;
     return elapsed_time / ITERATIONS;
 }
 
 
-double benchmark_my_bf(Graph &G, Vertex start_nodes[]){
+double benchmark_my_bf(Graph &G, Vertex start_nodes[], unsigned ITERATIONS){
     unsigned long n = boost::num_vertices(G);
 
     // Get property map from bundled property cost
@@ -130,11 +130,14 @@ double benchmark_my_bf(Graph &G, Vertex start_nodes[]){
 
     double elapsed_time = 0;
     std::clock_t start = clock();
-    for(int it=0; it<ITERATIONS; ++it){
+    for(unsigned it=0; it<ITERATIONS; ++it){
         Vertex s = start_nodes[it];
 
         // Run algo
         bool no_neg_cycle = bellman_ford(G, s, costs, dist, pred);
+        if(!no_neg_cycle){
+            std::cout << "my_cycle_detected" << std::endl;
+        }
 
     }
     elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;

@@ -3,7 +3,7 @@
 /**
  * Given the dist and pred vectors, calculates the (V+, V- VF)
  * sets and returns them in a vector containing the VertexLabel
- * enum for each Vertex
+ * enum for each Vertex (works for the typedefed graph)
  *
  * @param &G The Graph
  * @param no_cycle Whether it contains a negative circle or not
@@ -50,7 +50,17 @@ std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int>
     return labels;
 }
 
-
+/**
+ * Given the pred node_array, calculates the (V+, V- VF)
+ * sets and returns them in a node_array containing the VertexLabel
+ * enum for each node (Works for leda graphs)
+ *
+ * @param &G The Graph
+ * @param no_cycle Whether it contains a negative circle or not
+ * @param s The s node
+ * @param &pred The pred node_array
+ * @return The set labels for each Vertex
+ */
 leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,int> &G, bool no_cycle, leda::node s, leda::node_array<leda::edge> &pred){
     leda::node_array<VertexLabel> labels(G);
 

@@ -4,6 +4,8 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <LEDA/graph/graph.h>
 
+enum class GraphType {random, grid};
+
 // ===== CONCRETE GRAPH STRUCTURE =====
 struct EdgeProperties {
 	int cost;
@@ -31,6 +33,8 @@ typedef boost::property_map<Graph, int EdgeProperties::*>::type CostPropertyMap;
 
 // ===== FUNCTIONS =====
 leda::GRAPH<unsigned, int> boostToLeda(const Graph &);
+std::string graphName(GraphType gt);
+
 
 
 #endif
