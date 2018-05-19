@@ -1,11 +1,12 @@
 #include "../include/run.h"
 #include "../include/bellman_ford.h"
+#include "../include/labeler.h"
 
 #include <iostream>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/timer.hpp>
 #include <LEDA/graph/graph.h>
-//#include <LEDA/graph/templates/shortest_path.h>
+#include <LEDA/graph/templates/shortest_path.h>
 
 void run_boost_bf(Graph &G, Vertex s){
     std::cout << "Running Internal boost algorithm" << std::endl;
@@ -71,12 +72,12 @@ void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
     boost::timer timer;
 
     // Run algo
-    bool no_neg_cycle = false; //BELLMAN_FORD_B_T(G,s,costs,dist,pred);
+    bool no_neg_cycle = BELLMAN_FORD_B_T(G,s,costs,dist,pred);
 
     //Stop timer
     double elapsed_time = timer.elapsed();
 
-    leda::node_array<VertexLabel> labels = ledaLabelVertices(G, no_neg_cycle, s, dist, pred);
+    leda::node_array<VertexLabel> labels = ledaLabelVertices(G, no_neg_cycle, s, pred);
 
     // Print results
     if (!no_neg_cycle) {

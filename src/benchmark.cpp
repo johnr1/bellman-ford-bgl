@@ -1,10 +1,11 @@
+#include "ctime"
 #include "../include/benchmark.h"
 
 #include <boost/random/mersenne_twister.hpp>
 #include "../include/graph_gen.h"
 #include "../include/bellman_ford.h"
 
-//#include <LEDA/graph/templates/shortest_path.h>
+#include <LEDA/graph/templates/shortest_path.h>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 
 #define ITERATIONS 10
@@ -110,7 +111,7 @@ double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[]
         leda::node s = start_nodes[it];
 
         // Run algo
-        //bool no_neg_cycle = BELLMAN_FORD_T(G,s,costs,dist,pred);
+        bool no_neg_cycle = BELLMAN_FORD_T(G,s,costs,dist,pred);
     }
     elapsed_time = double(clock() - start) / CLOCKS_PER_SEC;
     return elapsed_time / ITERATIONS;

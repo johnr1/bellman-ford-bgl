@@ -1,13 +1,13 @@
 CC=g++
-FLAGS=-O3 -Wall -Wextra
-LIB=-lm -lleda -lX11
+FLAGS=-O3 -std=c++0x -Wall -Wextra
+LIB=-lm -lleda
 
 SOURCES=$(wildcard src/*.cpp)
 OBJECTS=$(SOURCES:src/%.cpp=build/%.o)
 
 BIN=bin/executable
 
-LEDA_ROOT=${HOME}/Documents/lib/LEDA
+LEDA_ROOT=/usr/local/LEDA
 LEDA_INCL=$(LEDA_ROOT)/incl
 
 #----------------------------

@@ -83,8 +83,10 @@ int main(int argc, char* argv[]) {
             G = myGridGraph(N);
             s = 0;
         }
+        //auto LG = boostToLeda(G);
 
-        run_boost_bf(G, s);
+        //run_leda_bf(LG, LG.first_node());
+        run_my_bf(G, s);
     }
 
     return 0;
