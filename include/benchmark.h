@@ -10,7 +10,7 @@ void benchmark(unsigned N, GraphType graph_type, unsigned ITERATIONS);
 
 // Private
 double benchmark_boost_bf(Graph &G, Vertex start_nodes[], unsigned ITERATIONS);
-double benchmark_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node start_nodes[], unsigned ITERATIONS);
+double benchmark_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node start_nodes[], unsigned ITERATIONS);
 double benchmark_my_bf(Graph &G, Vertex start_nodes[], unsigned ITERATIONS);
 
 #endif

@@ -11,14 +11,14 @@
  * @param &pred The pred vector
  * @return The set labels for each Vertex
  */
-std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int> &dist, std::vector<Vertex> &pred){
+std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<long> &dist, std::vector<Vertex> &pred){
     unsigned long n = boost::num_vertices(G);
     std::vector<VertexLabel> labels(n);
 
     VertexIterator vi, vi_end;
     for(boost::tie(vi, vi_end) = vertices(G); vi!=vi_end; ++vi){
         // If dist = inf
-        if(dist[*vi] == std::numeric_limits<int>::max()){
+        if(dist[*vi] == std::numeric_limits<long>::max()){
             labels[*vi] = VertexLabel::Vplus;
             continue;
         }
@@ -61,7 +61,7 @@ std::vector<VertexLabel> labelVertices(Graph &G, bool no_cycle, std::vector<int>
  * @param &pred The pred node_array
  * @return The set labels for each Vertex
  */
-leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,int> &G, bool no_cycle, leda::node s, leda::node_array<leda::edge> &pred){
+leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,long> &G, bool no_cycle, leda::node s, leda::node_array<leda::edge> &pred){
     leda::node_array<VertexLabel> labels(G);
 
     leda::node v;

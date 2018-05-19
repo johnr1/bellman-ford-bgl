@@ -32,7 +32,7 @@ typedef boost::property_map<Graph, int EdgeProperties::*>::type CostPropertyMap;
 
 
 // ===== FUNCTIONS =====
-leda::GRAPH<unsigned, int> boostToLeda(const Graph &);
+leda::GRAPH<unsigned, long> boostToLeda(const Graph &);
 std::string graphName(GraphType gt);
 
 

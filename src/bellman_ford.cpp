@@ -5,12 +5,12 @@
 #include "../include/bellman_ford.h"
 #include "../include/graph.h"
 
-inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<int> &dist, std::vector<Vertex> &pred);
+inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred);
 
 bool bellman_ford(Graph &G,
                   Vertex s,
                   CostPropertyMap &costs,
-                  std::vector<int> &dist,
+                  std::vector<long> &dist,
                   std::vector<Vertex> &pred)
 {
     Vertex separator = boost::graph_traits<Graph>::null_vertex(); //End marker
@@ -22,7 +22,7 @@ bool bellman_ford(Graph &G,
 
 	// Make parent = self (signifies null) and dist=inf
 	for(unsigned long i=0; i<n; i++) {
-	    dist[i] = std::numeric_limits<int>::max();
+	    dist[i] = std::numeric_limits<long>::max();
         pred[i] = i;
     }
 
@@ -43,12 +43,12 @@ bool bellman_ford(Graph &G,
         else
             in_Q[u] = false;
 
-        int du = dist[u];
+        long du = dist[u];
 
         OutEdgeIterator ei, ei_end;
         for(boost::tie(ei, ei_end) = boost::out_edges(u, G); ei != ei_end; ++ei){
             Vertex v = boost::target(*ei, G);
-            int d = du + costs[*ei];
+            long d = du + costs[*ei];
             if((pred[v] == separator && v != s) || d < dist[v]){
                 dist[v] = d;
                 pred[v] = u;
@@ -75,14 +75,14 @@ bool bellman_ford(Graph &G,
     return false;
 }
 
-inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<int> &dist, std::vector<Vertex> &pred){
+inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred){
     reached_from_node_in_U[v] = true;
     OutEdgeIterator ei, ei_end;
 
     for(boost::tie(ei, ei_end) = boost::out_edges(v, G); ei != ei_end; ++ei){
         Vertex w = boost::target(*ei, G);
         if(!reached_from_node_in_U[w]){
-            if(dist[w] < std::numeric_limits<int>::max()){
+            if(dist[w] < std::numeric_limits<long>::max()){
                 pred[w] = v;
             }
             update_pred(G, w, reached_from_node_in_U, dist, pred);

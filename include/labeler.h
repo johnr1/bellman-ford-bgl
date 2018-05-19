@@ -10,10 +10,10 @@ std::string labelName(VertexLabel);
 
 std::vector<VertexLabel> labelVertices(Graph &G,
 									   bool contains_cycle,
-									   std::vector<int> &dist,
+									   std::vector<long> &dist,
 									   std::vector<Vertex> &pred);
 
-leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,int> &G, 
+leda::node_array<VertexLabel> ledaLabelVertices(leda::GRAPH<unsigned,long> &G, 
 												bool no_cycle, 
 												leda::node s, 
 												leda::node_array<leda::edge> &pred);

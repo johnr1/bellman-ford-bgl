@@ -17,7 +17,7 @@ void run_boost_bf(Graph &G, Vertex s){
     boost::timer timer;
 
     // Declare dist (intialized to int-max -> inf) and pred vectors
-    std::vector<int> dist (n, std::numeric_limits <int>::max());
+    std::vector<long> dist (n, std::numeric_limits <long>::max());
     std::vector<Vertex> pred(n);
 
     // Get property map from bundled property cost
@@ -32,8 +32,8 @@ void run_boost_bf(Graph &G, Vertex s){
 
     // Run algo
     bool no_neg_cycle = bellman_ford_shortest_paths
-            (G, int(n), costs, &pred[0], &dist[0],
-             boost::closed_plus<int>(), std::less<int>(), boost::default_bellman_visitor());
+            (G, long(n), costs, &pred[0], &dist[0],
+             boost::closed_plus<long>(), std::less<long>(), boost::default_bellman_visitor());
 
     // Stop timer
     double elapsed_time = timer.elapsed();
@@ -58,15 +58,15 @@ void run_boost_bf(Graph &G, Vertex s){
 }
 
 
-void run_leda_bf(leda::GRAPH<unsigned, int> &G, leda::node s){
+void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
     std::cout << "Running LEDA algorithm" << std::endl;
 
     // Declare node_arrays dist and pred
     leda::node_array<leda::edge> pred(G);
-    leda::node_array<int> dist(G);
+    leda::node_array<long> dist(G);
 
     // Get property cost from inside GRAPH
-    leda::edge_array<int> costs = G.edge_data();
+    leda::edge_array<long> costs = G.edge_data();
 
     // Start timer
     boost::timer timer;
@@ -102,7 +102,7 @@ void run_my_bf(Graph &G, Vertex s){
     std::cout << "Running my Bellman Ford algorithm" << std::endl;
 
     // Declare dist(intialized to int-max -> inf) and pred vectors
-    std::vector<int> dist (n);
+    std::vector<long> dist (n);
     std::vector<Vertex> pred(n);
 
     // Get property map from bundled property cost

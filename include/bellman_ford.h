@@ -6,7 +6,7 @@
 bool bellman_ford(Graph&,
 				  Vertex s,
 				  CostPropertyMap &costs,
-				  std::vector<int> &dist,
+				  std::vector<long> &dist,
 				  std::vector<Vertex> &pred);
 
 
