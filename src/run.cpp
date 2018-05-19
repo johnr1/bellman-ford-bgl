@@ -8,6 +8,15 @@
 #include <LEDA/graph/graph.h>
 #include <LEDA/graph/templates/shortest_path.h>
 
+
+/**
+ * Performs a test run of the internal 
+ * boost bellman ford algorithm and prints results.
+ * 
+ * @param &G The graph to execute the bf on
+ * @param s The starting Vertex
+ * 
+ */
 void run_boost_bf(Graph &G, Vertex s){
     std::cout << "Running Internal boost algorithm" << std::endl;
 
@@ -58,6 +67,14 @@ void run_boost_bf(Graph &G, Vertex s){
 }
 
 
+/**
+ * Performs a test run of the LEDA
+ * bellman ford algorithm and prints results.
+ * 
+ * @param &G The graph to execute the bf on
+ * @param s The starting Vertex
+ * 
+ */
 void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
     std::cout << "Running LEDA algorithm" << std::endl;
 
@@ -96,6 +113,14 @@ void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
     std::cout << "Time to complete: " << elapsed_time << std::endl;
 }
 
+/**
+ * Performs a test run of the my implemented 
+ * bellman ford algorithm and prints results.
+ * 
+ * @param &G The graph to execute the bf on
+ * @param s The starting Vertex
+ * 
+ */
 void run_my_bf(Graph &G, Vertex s){
     unsigned long n = boost::num_vertices(G);
 

@@ -7,6 +7,21 @@
 
 inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred);
 
+
+/**
+ * Implements the bellman ford algorithm
+ * as described in the documentaiton provided.
+ * It updates the preds if a negative cycle
+ * is deteted.
+ * 
+ * @param &G The graph to execute the bf on
+ * @param s The starting Vertex
+ * @param &costs The property map containing the costs
+ * @param &dist The distance vector (is populated with the distances)
+ * @param &pred The pred vector (is popuated with the parent Vertices)
+ * @return Boolean, true if didn't find cycle
+ * 
+ */
 bool bellman_ford(Graph &G,
                   Vertex s,
                   CostPropertyMap &costs,

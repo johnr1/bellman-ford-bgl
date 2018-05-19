@@ -8,7 +8,7 @@
  * NodeInfo: Vertex Index as is in Graph
  * EdgeInfo: Edge Cost as is in Graph
  *
- *	@param BG The boost Graph to transform
+ * @param BG The boost Graph to transform
  * @return The converted LEDA parameter GRAPH
  */
 leda::GRAPH<unsigned, long> boostToLeda(const Graph &BG){
