@@ -131,13 +131,14 @@ bool bellman_ford_checker (Graph& G,
 				  Vertex s,
 				  CostPropertyMap &costs,
 				  std::vector<long> &dist,
-				  std::vector<Vertex> &pred)
+				  std::vector<Vertex> &pred,
+                  std::vector<int> &label)
 {
     unsigned long n = boost::num_vertices(G);
-    enum{ NEG_CYCLE = -2, ATT_TO_CYCLE = -1, FINITE = 0, PLUS = 1, CYCLE = 2, ON_CUR_PATH = 3, UNKNOWN = 4 };
 
-    std::vector<Vertex> label(n,UNKNOWN);
     std::vector<bool> reachable(n,false);
+    for(int i=0; i<n; i++)
+        label[i] = UNKNOWN;
 
     // Condition (1)
     dfs(G,s,reachable);

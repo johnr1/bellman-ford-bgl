@@ -54,3 +54,13 @@ std::string graphName(GraphType gt){
 	return "ERR";
 }
 
+std::string labelName(int label){
+	switch(label) {
+        case NEG_CYCLE : return "V-";
+		case ATT_TO_CYCLE : return "V-";
+		case FINITE : return "Vf";
+        case PLUS : return "V+";
+    }
+	return "ERR";
+}
+

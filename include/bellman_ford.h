@@ -16,6 +16,7 @@ bool bellman_ford_checker (Graph& G,
 				  Vertex s,
 				  CostPropertyMap &costs,
 				  std::vector<long> &dist,
-				  std::vector<Vertex> &pred);
+				  std::vector<Vertex> &pred,
+                  std::vector<int> &labels);
 
 #endif

@@ -2,7 +2,6 @@
 
 #include "../include/run.h"
 #include "../include/bellman_ford.h"
-#include "../include/labeler.h"
 #include "../include/io.h"
 #include "../include/graph_gen.h"
 
@@ -43,8 +42,9 @@ void run_my_bf(Graph &G, Vertex s){
     // Stop timer
     double elapsed_time = timer.elapsed();
 
-    // Categorize labels
-    std::vector<VertexLabel> labels = labelVertices(G, no_neg_cycle, dist, pred);
+    // Check results and categorize vertices
+    std::vector<int> labels(n);
+    bool correct_results = bellman_ford_checker(G, s, costs, dist, pred, labels);
 
     // Print results
     std::cout << "S vertex is: " << s << std::endl;
@@ -61,17 +61,13 @@ void run_my_bf(Graph &G, Vertex s){
         else std::cout << pred[*vi];
         std::cout << " | Label: " << labelName(labels[*vi]) << std::endl;
     }
-
-    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
-
-    std::cout << "Testing algorithm integrity" << std::endl;
-    bool correct_results = bellman_ford_checker(G, s, costs, dist, pred);
+    
     if (correct_results) {
         std::cout << "Results OK!" << std::endl;
-    }
-    else {
+    } else {
         std::cout << "[Warning] Results appear to be incorrect" << std::endl;
     }
+    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 
 	std::ofstream f("graph.dot");
 	boost::write_graphviz(f, G, boost::default_writer(), MyEdgeWriter(G, pred));
@@ -169,8 +165,6 @@ void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
     //Stop timer
     double elapsed_time = timer.elapsed();
 
-    leda::node_array<VertexLabel> labels = ledaLabelVertices(G, no_neg_cycle, s, pred);
-
     // Print results
     if (!no_neg_cycle) {
         std::cout << "Negative cycled detected." << std::endl;
@@ -182,8 +176,7 @@ void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
             std::cout << "Vertex: " << v->id() ;
             std::cout << " | Dist: "<< dist[v] << " | Pred: ";
 			if(pred[v] == nil) std::cout << "nil";
-			else std::cout << G.source(pred[v])->id();
-            std::cout << " | Label: " << labelName(labels[v]) << std::endl;
+			else std::cout << G.source(pred[v])->id() << std::endl;
     }
     std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 }
