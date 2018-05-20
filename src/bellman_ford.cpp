@@ -6,7 +6,7 @@
 #include "../include/bellman_ford.h"
 #include "../include/graph.h"
 
-inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred);
+inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<bool> &in_R, std::vector<Vertex> &pred);
 
 /**
  * Implements the bellman ford algorithm
@@ -75,32 +75,42 @@ bool bellman_ford(Graph &G,
         }
     }
 
-    // BF POST PROCESSING
-
+    // BELLMAN-FORD POSTPROCESSING
     if (pred[s] != s) return false;
-    std::vector<bool> reached_from_node_in_U(n, false);
 
+    std::vector<bool> reached_from_node_in_U(n, false);
+    std::vector<bool> in_R(n, false); // until you  find a way to specify R keep true
+
+    Graph tmpG;
     VertexIterator vi, vi_end;
     for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
+        if(pred[*vi] != *vi){
+           boost::add_edge(pred[*vi], *vi, EdgeProperties(0), tmpG);
+        }
+    }
+
+    dfs(tmpG, s, in_R);
+    
+    for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
         if(in_Q[*vi] && !reached_from_node_in_U[*vi]) {
-            update_pred(G, *vi, reached_from_node_in_U, dist, pred);
+            update_pred(G, *vi, reached_from_node_in_U, in_R, pred);
         }
     }
 
     return false;
 }
 
-inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred){
+inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<bool> &in_R, std::vector<Vertex> &pred){
     reached_from_node_in_U[v] = true;
     OutEdgeIterator ei, ei_end;
 
     for(boost::tie(ei, ei_end) = boost::out_edges(v, G); ei != ei_end; ++ei){
         Vertex w = boost::target(*ei, G);
         if(!reached_from_node_in_U[w]){
-            if(dist[w] < std::numeric_limits<long>::max()){
+            if(in_R[w]) {
                 pred[w] = v;
             }
-            update_pred(G, w, reached_from_node_in_U, dist, pred);
+            update_pred(G, w, reached_from_node_in_U, in_R, pred);
         }
     }
 }
@@ -135,7 +145,7 @@ bool bellman_ford_checker (Graph& G,
     VertexIterator vi, vi_end;
     for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
         if( *vi != s ){
-            if(!(pred[*vi] == *vi) == (reachable[*vi] == false)) return false;
+            if(!((pred[*vi] == *vi) == (reachable[*vi] == false))) return false;
             if(reachable[*vi] == false) label[*vi] = PLUS;
         }
     }
@@ -148,7 +158,7 @@ bool bellman_ford_checker (Graph& G,
         if ( label[v] == UNKNOWN ){ 
             std::stack<Vertex> S;
             Vertex w = v;
-            while ( label[w] == UNKNOWN ){ 
+            while ( label[w] == UNKNOWN && w != pred[w]){ //added check for nil (w != pred[w])
                 label[w] = ON_CUR_PATH;
                 S.push(w);
                 w = pred[w];
@@ -196,8 +206,9 @@ bool bellman_ford_checker (Graph& G,
 
     // Conditions (3), (4), and (5)
     if ( label[s] == FINITE ) 
-        if(!(dist[s] == 0)) return false;
-    
+        if(!(dist[s] == 0 )) return false;
+
+
     EdgeIterator ei, ei_end;
     for(boost::tie(ei, ei_end) = boost::edges(G); ei != ei_end; ++ei){
         Vertex v = boost::source(*ei, G);

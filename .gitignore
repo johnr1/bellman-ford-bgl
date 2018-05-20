@@ -6,3 +6,4 @@ CMakeLists.txt.user
 build/*.o
 bin/bellman_ford
 graph.dot
+graph.png

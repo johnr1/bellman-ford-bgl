@@ -70,8 +70,7 @@ void run_my_bf(Graph &G, Vertex s){
         std::cout << "Results OK!" << std::endl;
     }
     else {
-        std::cout << "[Warning] Results appear to be incorrect";
-        return;
+        std::cout << "[Warning] Results appear to be incorrect" << std::endl;
     }
 
 
