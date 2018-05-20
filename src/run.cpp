@@ -4,6 +4,7 @@
 #include "../include/bellman_ford.h"
 #include "../include/labeler.h"
 #include "../include/io.h"
+#include "../include/graph_gen.h"
 
 #include <iostream>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -63,7 +64,6 @@ void run_my_bf(Graph &G, Vertex s){
 
     std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 
-
     std::cout << "Testing algorithm integrity" << std::endl;
     bool correct_results = bellman_ford_checker(G, s, costs, dist, pred);
     if (correct_results) {
@@ -73,22 +73,17 @@ void run_my_bf(Graph &G, Vertex s){
         std::cout << "[Warning] Results appear to be incorrect" << std::endl;
     }
 
-
-    MyEdgeWriter mew(G, pred);
 	std::ofstream f("graph.dot");
-	boost::write_graphviz(f, G, boost::default_writer(), mew);
+	boost::write_graphviz(f, G, boost::default_writer(), MyEdgeWriter(G, pred));
     std::cout << "Wrote graphviz format in file graph.dot" << std::endl;
 	f.close();
 }
 
 
-
-// The following two functions are 
-// Unused in the final executable, 
-// here for testing purposes
-
+// ----
 
 /**
+ * (Unused in the final executable, useful for testing)
  * Performs a test run of the internal 
  * boost bellman ford algorithm and prints results.
  * 
@@ -147,6 +142,7 @@ void run_boost_bf(Graph &G, Vertex s){
 
 
 /**
+ * (Unused in the final executable, useful for testing)
  * Performs a test run of the LEDA
  * bellman ford algorithm and prints results.
  * 

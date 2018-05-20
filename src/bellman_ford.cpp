@@ -10,9 +10,9 @@ inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node
 
 /**
  * Implements the bellman ford algorithm
- * as described in the documentaiton provided.
+ * as described in the documentation provided.
  * It updates the preds if a negative cycle
- * is deteted.
+ * is detected.
  * 
  * @param &G The graph to execute the bf on
  * @param s The starting Vertex
@@ -28,7 +28,7 @@ bool bellman_ford(Graph &G,
                   std::vector<long> &dist,
                   std::vector<Vertex> &pred)
 {
-    Vertex separator = boost::graph_traits<Graph>::null_vertex(); //End marker
+    const Vertex separator = boost::graph_traits<Graph>::null_vertex(); //End marker
     unsigned long n = boost::num_vertices(G);
 	unsigned long phase_count = 0;
 
@@ -81,7 +81,7 @@ bool bellman_ford(Graph &G,
     std::vector<bool> reached_from_node_in_U(n, false);
     std::vector<bool> in_R(n, false); // until you  find a way to specify R keep true
 
-    Graph tmpG;
+    Graph tmpG(n);
     VertexIterator vi, vi_end;
     for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
         if(pred[*vi] != *vi){
