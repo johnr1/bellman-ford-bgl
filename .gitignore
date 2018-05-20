@@ -4,4 +4,4 @@ cmake-build-release/
 hw2.pdf
 CMakeLists.txt.user
 build/*.o
-bin/executable
+bin/bellman_ford

@@ -1,6 +1,9 @@
+#include <boost/graph/graphviz.hpp>
+
 #include "../include/run.h"
 #include "../include/bellman_ford.h"
 #include "../include/labeler.h"
+#include "../include/io.h"
 
 #include <iostream>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
@@ -162,4 +165,10 @@ void run_my_bf(Graph &G, Vertex s){
     }
 
     std::cout << "Time to complete: " << elapsed_time << std::endl;
+
+    MyEdgeWriter mew(G, pred);
+	std::ofstream f("graph.dot");
+	boost::write_graphviz(f, G, boost::default_writer(), mew);
+    std::cout << "Wrote graphviz format in file graph.dot" << std::endl;
+	f.close();
 }

@@ -1,11 +1,11 @@
 CC=g++
-FLAGS=-O3 -std=c++0x -Wall
+FLAGS=-O3 -std=c++0x
 LIB=-lm -lleda
 
 SOURCES=$(wildcard src/*.cpp)
 OBJECTS=$(SOURCES:src/%.cpp=build/%.o)
 
-BIN=bin/executable
+BIN=bin/bellman_ford
 
 LEDA_ROOT=/usr/local/LEDA
 LEDA_INCL=$(LEDA_ROOT)/incl
@@ -14,7 +14,7 @@ LEDA_INCL=$(LEDA_ROOT)/incl
 
 executable: $(BIN)
 
-$(BIN): $(OBJECTS) 
+$(BIN): $(OBJECTS) include/io.h
 	$(CC) $(OBJECTS) -o $(BIN) $(LIB) -L $(LEDA_ROOT)
 
 build/%.o: src/%.cpp include/%.h

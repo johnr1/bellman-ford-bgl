@@ -1,4 +1,3 @@
-- Write in graphviz format
 - Write algo checker
 - Test if dist can truly replace DFS
 - Optimize bellman ford
