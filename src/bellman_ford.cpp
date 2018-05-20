@@ -1,4 +1,5 @@
 #include <vector>
+#include <stack>
 #include <queue>
 #include <limits>
 
@@ -129,30 +130,100 @@ void dfs(Graph &G, Vertex s, std::vector<bool> &reachable){
 
 
 
-// bool bellman_ford_checker (Graph&,
-// 				  Vertex s,
-// 				  CostPropertyMap &costs,
-// 				  std::vector<long> &dist,
-// 				  std::vector<Vertex> &pred)
-// {
-//     unsigned long n = boost::num_vertices(G);
-//     enum{ NEG_CYCLE = -2, ATT_TO_CYCLE = -1, FINITE = 0, PLUS = 1, CYCLE = 2, ON_CUR_PATH = 3, UNKNOWN = 4 };
+bool bellman_ford_checker (Graph& G,
+				  Vertex s,
+				  CostPropertyMap &costs,
+				  std::vector<long> &dist,
+				  std::vector<Vertex> &pred)
+{
+    unsigned long n = boost::num_vertices(G);
+    enum{ NEG_CYCLE = -2, ATT_TO_CYCLE = -1, FINITE = 0, PLUS = 1, CYCLE = 2, ON_CUR_PATH = 3, UNKNOWN = 4 };
 
-//     std::vector<Vertex> label(n,UNKNOWN);
-//     std::vector<bool> reachable(n,false);
+    std::vector<Vertex> label(n,UNKNOWN);
+    std::vector<bool> reachable(n,false);
 
-//     DFS(G,s,reachable);
+    // Condition (1)
+    dfs(G,s,reachable);
 
-//     Vertex v;
+    VertexIterator vi, vi_end;
+    for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
+        if( *vi != s ){
+            if(!(pred[*vi] == *vi) == (reachable[*vi] == false)) return false;
+            if(reachable[*vi] == false) label[*vi] = PLUS;
+        }
+    }
 
-//     VertexIterator vi, vi_end;
-//     for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
-//         if( *vi != s ){
-//             if(!(pred[*vi] == *vi) == (reachable[*vi] == false)) return false;
-//             if(reachable[*vi] == false) label[*vi] = false;
-//         }
-//     }
+    // Classification of nodes
+    if (pred[s] == s) label[s] = FINITE;
 
-//     // ==================================
+    for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
+        Vertex v = *vi;
+        if ( label[v] == UNKNOWN ){ 
+            std::stack<Vertex> S;
+            Vertex w = v;
+            while ( label[w] == UNKNOWN ){ 
+                label[w] = ON_CUR_PATH;
+                S.push(w);
+                w = pred[w];
+            }
 
-// }
+            // label all nodes on current path
+            int t = label[w];
+            if ( t == ON_CUR_PATH ){
+                Vertex z;
+                do { 
+                    z = S.top(); S.pop();
+                    label[z] = CYCLE;
+                }
+                while ( z != w );
+                while ( !S.empty() ){ 
+                    label[S.top()] = ATT_TO_CYCLE;
+                    S.pop();
+                }
+            }
+            else{ // t is CYCLE, ATT_TO_CYCLE, or FINITE
+                if ( t == CYCLE ) t = ATT_TO_CYCLE;
+                while ( !S.empty() ){ 
+                    label[S.top()] = t;
+                    S.pop();
+                }
+            }
+        }
+    }
+
+    // Condition (2)
+    for(boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi){
+        Vertex v = *vi;
+        if ( label[v] == CYCLE ){
+            Vertex w = v;
+            long cycle_length = 0;
+            do{ 
+                Edge e = boost::edge(pred[w], w, G).first;
+                cycle_length += costs[e];
+                label[w] = NEG_CYCLE;
+                w = pred[w];
+            } while (w != v);
+            if(!(cycle_length < 0)) return false;
+        }
+    }
+
+    // Conditions (3), (4), and (5)
+    if ( label[s] == FINITE ) 
+        if(!(dist[s] == 0)) return false;
+    
+    EdgeIterator ei, ei_end;
+    for(boost::tie(ei, ei_end) = boost::edges(G); ei != ei_end; ++ei){
+        Vertex v = boost::source(*ei, G);
+        Vertex w = boost::target(*ei, G);
+        if ( label[w] == FINITE ){ 
+            if( !(label[v] == FINITE || label[v] == PLUS) ) return false;
+            if ( label[v] == FINITE ) {
+                if( !( dist[v] + costs[*ei] >= dist[w] ) ) return false;
+                if ( boost::source(*ei, G) == pred[w] )
+                    if( !( dist[v] + costs[*ei] == dist[w] ) ) return false;
+            }
+        }
+    }
+
+    return true;
+}
