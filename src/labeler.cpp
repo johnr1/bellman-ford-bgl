@@ -4,6 +4,8 @@
  * Given the dist and pred vectors, calculates the (V+, V- VF)
  * sets and returns them in a vector containing the VertexLabel
  * enum for each Vertex (works for the typedefed graph)
+ * It can be used to avoid running the bellman_ford_checker 
+ * but still want to get the labels.
  *
  * @param &G The Graph
  * @param no_cycle Whether it contains a negative circle or not
