@@ -61,7 +61,7 @@ void run_my_bf(Graph &G, Vertex s){
         std::cout << " | Label: " << labelName(labels[*vi]) << std::endl;
     }
 
-    std::cout << "Time to complete: " << elapsed_time << std::endl;
+    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 
 
     std::cout << "Testing algorithm integrity" << std::endl;
@@ -143,7 +143,7 @@ void run_boost_bf(Graph &G, Vertex s){
     else
         std::cout << "Negative cycled detected on boost Bellman ford." << std::endl;
 
-    std::cout << "Time to complete: " << elapsed_time << std::endl;
+    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 }
 
 
@@ -190,6 +190,6 @@ void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
 			else std::cout << G.source(pred[v])->id();
             std::cout << " | Label: " << labelName(labels[v]) << std::endl;
     }
-    std::cout << "Time to complete: " << elapsed_time << std::endl;
+    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 }
 

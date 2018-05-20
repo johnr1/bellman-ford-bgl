@@ -8,7 +8,6 @@
 
 inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node_in_U, std::vector<long> &dist, std::vector<Vertex> &pred);
 
-
 /**
  * Implements the bellman ford algorithm
  * as described in the documentaiton provided.
@@ -108,28 +107,16 @@ inline void update_pred(Graph& G, Vertex v, std::vector<bool> &reached_from_node
 
 
 /**
- * UNUSED
- * Implements the DFS algorithm from 
- * a start Vertex.
+ * Checks the correctness of the results
+ * of the bellman ford algorithm.
  * 
  * @param &G The graph to search
  * @param s The starter vertex
- * @param &reachable The bool vector showing if reachable
- *
+ * @param &costs The CostPropertyMap containing the cost of the edges
+ * @param &dist The vector containing the distance of the Vertices
+ * @param &pred The vector containing the preds of the Vertices
+ * @return True if correct or false if integrity check failed
  */
-void dfs(Graph &G, Vertex s, std::vector<bool> &reachable){
-    reachable[s] = true;
-    
-    OutEdgeIterator ei, ei_end;
-    for(boost::tie(ei, ei_end) = boost::out_edges(s, G); ei != ei_end; ++ei){
-        Vertex w = boost::target(*ei, G);
-        if(!reachable[w])
-            dfs(G, w, reachable);
-    }
-}
-
-
-
 bool bellman_ford_checker (Graph& G,
 				  Vertex s,
 				  CostPropertyMap &costs,
@@ -227,3 +214,25 @@ bool bellman_ford_checker (Graph& G,
 
     return true;
 }
+
+
+/**
+ * Implements the DFS algorithm from 
+ * a start Vertex.
+ * 
+ * @param &G The graph to search
+ * @param s The starter vertex
+ * @param &reachable The bool vector showing if reachable
+ *
+ */
+void dfs(Graph &G, Vertex s, std::vector<bool> &reachable){
+    reachable[s] = true;
+    
+    OutEdgeIterator ei, ei_end;
+    for(boost::tie(ei, ei_end) = boost::out_edges(s, G); ei != ei_end; ++ei){
+        Vertex w = boost::target(*ei, G);
+        if(!reachable[w])
+            dfs(G, w, reachable);
+    }
+}
+
