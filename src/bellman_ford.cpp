@@ -79,7 +79,7 @@ bool bellman_ford(Graph &G,
     if (pred[s] != s) return false;
 
     std::vector<bool> reached_from_node_in_U(n, false);
-    std::vector<bool> in_R(n, false); // until you  find a way to specify R keep true
+    std::vector<bool> in_R(n, false);
 
     Graph tmpG(n);
     VertexIterator vi, vi_end;
