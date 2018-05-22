@@ -20,7 +20,7 @@ GraphType graph_type = GraphType::random;
 void printUsage(std::string programName) {
     std::cout << "Usage:  "<< programName << " benchmark [-t type] [-n vertexes] [-i iterations]\n"
               << "or:\t" << programName << " run [-t type] [-n vertexes]\n\n"
-              << "benchmark\tAccurately times all algorithms for all test graphs and prints results.\n"
+              << "benchmark\tAccurately times all algorithms for a graph and prints results.\n"
               << "run\t\tPerforms a run of the bellman ford algorithm, tests for integrity, prints results.\n"
               << "-t\t\tThe type of the graph ['random' | 'grid'] (default random) \n"
               << "-n\t\tNumber of vertexes for random graph(default 200)\n"
