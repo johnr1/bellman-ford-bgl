@@ -1,5 +1,4 @@
 #include <iostream>
-#include <LEDA/graph/graph.h>
 #include <boost/graph/random.hpp>
 #include <boost/random/mersenne_twister.hpp>
 

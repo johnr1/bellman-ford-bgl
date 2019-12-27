@@ -2,7 +2,6 @@
 #define GRAPH_H
 
 #include <boost/graph/adjacency_list.hpp>
-#include <LEDA/graph/graph.h>
 
 enum class GraphType {random, grid};
 enum{ NEG_CYCLE = -2, ATT_TO_CYCLE = -1, FINITE = 0, PLUS = 1, CYCLE = 2, ON_CUR_PATH = 3, UNKNOWN = 4 };
@@ -34,7 +33,6 @@ typedef boost::property_map<Graph, int EdgeProperties::*>::type CostPropertyMap;
 
 
 // ===== FUNCTIONS =====
-leda::GRAPH<unsigned, long> boostToLeda(const Graph &);
 std::string graphName(GraphType gt);
 std::string labelName(int);
 

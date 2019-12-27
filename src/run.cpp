@@ -8,8 +8,6 @@
 #include <iostream>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/timer.hpp>
-#include <LEDA/graph/graph.h>
-#include <LEDA/graph/templates/shortest_path.h>
 
 
 
@@ -133,51 +131,6 @@ void run_boost_bf(Graph &G, Vertex s){
     else
         std::cout << "Negative cycled detected on boost Bellman ford." << std::endl;
 
-    std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
-}
-
-
-/**
- * (Unused in the final executable, useful for testing)
- * Performs a test run of the LEDA
- * bellman ford algorithm and prints results.
- * 
- * @param &G The graph to execute the bf on
- * @param s The starting Vertex
- * 
- */
-void run_leda_bf(leda::GRAPH<unsigned, long> &G, leda::node s){
-    std::cout << "Running LEDA algorithm" << std::endl;
-
-    // Declare node_arrays dist and pred
-    leda::node_array<leda::edge> pred(G);
-    leda::node_array<long> dist(G);
-
-    // Get property cost from inside GRAPH
-    leda::edge_array<long> costs = G.edge_data();
-
-    // Start timer
-    boost::timer timer;
-
-    // Run algo
-    bool no_neg_cycle = BELLMAN_FORD_B_T(G,s,costs,dist,pred);
-
-    //Stop timer
-    double elapsed_time = timer.elapsed();
-
-    // Print results
-    if (!no_neg_cycle) {
-        std::cout << "Negative cycled detected." << std::endl;
-    }
-    std::cout << "S vertex is: "; s->id(); std::cout << std::endl;
-
-    leda::node v;
-    forall_nodes(v, G) {
-            std::cout << "Vertex: " << v->id() ;
-            std::cout << " | Dist: "<< dist[v] << " | Pred: ";
-			if(pred[v] == nil) std::cout << "nil";
-			else std::cout << G.source(pred[v])->id() << std::endl;
-    }
     std::cout << "Time to complete: " << elapsed_time << "s" << std::endl;
 }
 

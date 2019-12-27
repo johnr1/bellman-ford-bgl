@@ -1,6 +1,0 @@
-    boost::add_edge(0,1, EdgeProperties(500), G);
-    boost::add_edge(0,3, EdgeProperties(10), G);
-    boost::add_edge(1,2, EdgeProperties(-5), G);
-    boost::add_edge(2,1, EdgeProperties(-5), G);
-    boost::add_edge(2,3, EdgeProperties(-5), G);
-    boost::add_edge(4,3, EdgeProperties(-5), G);
